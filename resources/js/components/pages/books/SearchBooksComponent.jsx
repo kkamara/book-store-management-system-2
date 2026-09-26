@@ -1,6 +1,6 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
-import ReactPaginate from 'react-paginate'
+import ReactPaginateModule from 'react-paginate'
 import moment from 'moment'
 import { Helmet, } from "react-helmet"
 import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome"
@@ -10,6 +10,8 @@ import { getCategories, } from '../../../redux/actions/categoriesActions'
 import { getSearchBooks, } from '../../../redux/actions/searchBooksActions'
 
 import "./SearchBooksComponent.scss"
+
+const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
 export default function SearchBooksComponent() {
   const dispatch = useDispatch()

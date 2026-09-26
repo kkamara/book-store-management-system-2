@@ -108,7 +108,7 @@ export default function CartComponent() {
   ) {
     console.log('auth', state.auth.data)
   }
-  if (state.auth.loading) {
+  if (state.auth.loading || state.cart.loading) {
     return <div className="container cart-container text-center">
       <Helmet>
           <title>Cart | {import.meta.env.VITE_APP_NAME}</title>

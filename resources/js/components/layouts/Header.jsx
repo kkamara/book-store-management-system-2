@@ -23,15 +23,25 @@ export default function Header(props) {
       const quantity = state.cart.data.data.reduce((acc, curr) => acc + curr.quantity, 0)
       setCartCount(quantity)
     }
-  })
+  }, [state.cart.data])
 
   useEffect(() => {
-    dispatch(getCart())
-  }, state.cart)
+    if (
+      false === state.cart.loading &&
+      state.cart.data === null
+    ) {
+      dispatch(getCart())
+    }
+  }, [state.cart.loading, state.cart.data])
 
   useEffect(() => {
-    dispatch(authorize())
-  }, state.auth)
+    if (
+      false === state.auth.loading &&
+      state.auth.data === null
+    ) {
+      dispatch(authorize())
+    }
+  }, [state.auth.loading, state.auth.data])
 
   const renderNavLinks = () => {
     if(state.auth.data) {
@@ -101,7 +111,7 @@ export default function Header(props) {
           <Link
             className="nav-link active" 
             aria-current="page" 
-            to="/"
+            to="/cart"
           >
             Cart (0)
           </Link>

@@ -25,7 +25,7 @@ export const getSearchBooks = (
         queryParams.append("category", params.category)
       }
       if (params.query) {
-        queryParams.append("query", params.edition)
+        queryParams.append("query", params.query)
       }
       if (params.orderById) {
         queryParams.append("orderById", params.orderById)
