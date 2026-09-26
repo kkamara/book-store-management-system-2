@@ -57,8 +57,8 @@ php artisan key:generate
 # Update your database details in .env
 # Note that the following path is fixed for Powershell usage.
 php artisan migrate --path=database\migrations\v1 --seed
-npm install
-npm run build
+yarn install
+yarn build
 ```
 
 ## Usage
