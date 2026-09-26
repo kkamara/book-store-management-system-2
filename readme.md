@@ -42,9 +42,9 @@
 ## Installation
 
 * [Laravel Herd](https://herd.laravel.com)
-* [MySQL (recommended) or database engine of SQLite, MariaDB, PostgreSQL, SQL Server](https://laravel.com/docs/11.x/database#introduction)
-* [https://laravel.com/docs/11.x/installation](https://laravel.com/docs/11.x/installation)
-* [https://laravel.com/docs/11.x/vite#main-content](https://laravel.com/docs/11.x/vite#main-content)
+* [MySQL (recommended) or database engine of SQLite, MariaDB, PostgreSQL, SQL Server](https://laravel.com/docs/13.x/database#introduction)
+* [https://laravel.com/docs/13.x/installation](https://laravel.com/docs/13.x/installation)
+* [https://laravel.com/docs/13.x/vite#main-content](https://laravel.com/docs/13.x/vite#main-content)
 
 ```powershell
 # Create our environment file.
