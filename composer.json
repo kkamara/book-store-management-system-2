@@ -1,5 +1,5 @@
 {
-    "name": "kkamara/book-store-management-system",
+    "name": "kkamara/book-store-management-system-2",
     "authors": [
         {
             "name": "Kelvin Kamara",
@@ -9,7 +9,7 @@
     ],
     "version": "1.0.0",
     "type": "project",
-    "description": "(14-Oct-2024) www.1000projects.org challenge. Made with Laravel 11, ReactJS 18 and Filament. This project has admin to insert books or a list of books, cart, orders, categories, and reviews. With tests.",
+    "description": "(26-Sep-2026) V2 of https://github.com/kkamara/book-store-management-system . Laravel 11 to 13 upgrade, React 18 to 19 upgrade, structural improvements, and a new Material UI design.",
     "keywords": [
         "web",
         "web-app",

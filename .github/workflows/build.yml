@@ -12,7 +12,7 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: 'secret'
-          MYSQL_DATABASE: 'book'
+          MYSQL_DATABASE: 'book_2'
           MYSQL_USER: 'user'
           MYSQL_PASSWORD: 'secret'
         ports:

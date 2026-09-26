@@ -14,7 +14,7 @@
 
 # Book Store Management System [![API](https://github.com/kkamara/book-store-management-system/actions/workflows/build.yml/badge.svg)](https://github.com/kkamara/book-store-management-system/actions/workflows/build.yml)
 
-(14-Oct-2024) www.1000projects.org challenge. Made with Laravel 11, ReactJS 18 and Filament. This project has admin to insert books or a list of books, cart, orders, categories, and reviews. With tests.
+(26-Sep-2026) V2 of https://github.com/kkamara/book-store-management-system . Laravel 11 to 13 upgrade, React 18 to 19 upgrade, structural improvements, and a new Material UI design.
 
 * [Using Postman?](#postman)
 
@@ -37,9 +37,9 @@
 
 [Get Postman HTTP client](https://www.postman.com/).
 
-[Postman API Collection for Book Store Management System](https://github.com/kkamara/book-store-management-system/blob/main/database/book-store-management-system.postman_collection.json).
+[Postman API Collection for Book Store Management System 2](./database/book-store-management-system-2.postman_collection.json).
 
-[Postman API Environment for Book Store Management System](https://github.com/kkamara/book-store-management-system/blob/main/database/book-store-management-system.postman_environment.json).
+[Postman API Environment for Book Store Management System 2](./database/book-store-management-system-2.postman_environment.json).
 
 ## Installation
 
