@@ -1,0 +1,31 @@
+.home-card {
+    width: 18rem;
+    display: inline-block !important;
+    margin: 10px;
+}
+
+.home-card .card-text {
+    font-size: 12px;
+}
+
+.card-span {
+    display: block;
+}
+
+.book-cost {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.book-pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.book-card-title {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
