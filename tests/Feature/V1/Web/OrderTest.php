@@ -4,50 +4,20 @@ namespace Tests\Feature\V1\Web;
 
 use App\Models\V1\Order;
 use App\Models\V1\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Laravel\Sanctum\Sanctum;
 
 class OrderTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
-
-    /**
-     * Refresh a conventional test database.
-     *
-     * @return void
-     */
-    protected function refreshTestDatabase()
-    {
-        if (!RefreshDatabaseState::$migrated) {
-            $this->artisan(
-                'migrate:fresh',
-                array_merge(
-                    $this->migrateFreshUsing(),
-                    [
-                        "--path" => "database/migrations/v1",
-                    ],
-                )
-            );
-
-            $this->app[Kernel::class]->setArtisan(null);
-
-            RefreshDatabaseState::$migrated = true;
-        }
-
-        $this->beginDatabaseTransaction();
-    }
+    use WithFaker;
 
     /**
      * A basic feature test OrdersController index route.
      */
     public function testOrders(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -69,7 +39,6 @@ class OrderTest extends TestCase
      */
     public function testOrdersSearch(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -92,7 +61,6 @@ class OrderTest extends TestCase
      */
     public function testOrdersSearchDoesntExist(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -114,7 +82,6 @@ class OrderTest extends TestCase
      */
     public function testGetOrder(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -136,7 +103,6 @@ class OrderTest extends TestCase
      */
     public function testGetOrderNotFoundByExists(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -154,7 +120,6 @@ class OrderTest extends TestCase
      */
     public function testGetOrderNotFoundByDoesntBelongToUser(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
