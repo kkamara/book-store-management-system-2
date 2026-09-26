@@ -5,7 +5,7 @@ axios.defaults.withXSRFToken = true
 
 export default class HttpService
 {
-  _domain = 'http://book.test'
+  _domain = import.meta.env.VITE_APP_URL
   _url = `${this._domain}/api/web`
 
   get domain() {
