@@ -14,7 +14,6 @@ class HomeTest extends TestCase
      */
     public function testHome(): void
     {
-        $this->seed();
         $book = Book::orderBy("id", "DESC")
             ->where("approved", 1)
             ->paginate(8);

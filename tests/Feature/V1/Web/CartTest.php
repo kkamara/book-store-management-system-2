@@ -17,7 +17,6 @@ class CartTest extends TestCase
      */
     public function testCart(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -43,7 +42,6 @@ class CartTest extends TestCase
      */
     public function testCartUpdateAddItems(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -79,7 +77,6 @@ class CartTest extends TestCase
      */
     public function testCartDuplicateUpdateAddItems(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -118,7 +115,6 @@ class CartTest extends TestCase
      */
     public function testCartUpdateClearItems(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -137,7 +133,6 @@ class CartTest extends TestCase
      */
     public function testCartAddToCart(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -174,7 +169,6 @@ class CartTest extends TestCase
      */
     public function testCartAddToCartAddsQuantity(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -212,7 +206,6 @@ class CartTest extends TestCase
      */
     public function testCartRemoveFromCart(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(

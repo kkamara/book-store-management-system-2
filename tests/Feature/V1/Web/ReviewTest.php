@@ -14,7 +14,6 @@ class ReviewTest extends TestCase
      */
     public function testReview(): void
     {
-        $this->seed();
         $book = Book::where("approved", 1)->firstOrFail();
         $reviews = $book->reviews()
             ->where("approved", 1)
@@ -33,7 +32,6 @@ class ReviewTest extends TestCase
      */
     public function testBookNotFoundByExists(): void
     {
-        $this->seed();
         $response = $this->getJson("/api/web/books/doesnt-exist");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("message")
@@ -48,7 +46,6 @@ class ReviewTest extends TestCase
      */
     public function testBookNotFoundByApproved(): void
     {
-        $this->seed();
         $book = Book::where("approved", "!=", 1)->firstOrFail();
         $response = $this->getJson("/api/web/books/".$book->slug);
         $response->assertJson(fn (AssertableJson $json) =>

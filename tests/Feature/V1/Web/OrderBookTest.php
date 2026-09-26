@@ -12,13 +12,12 @@ use Laravel\Sanctum\Sanctum;
 class OrderBookTest extends TestCase
 {
     use WithFaker;
-    
+
     /**
      * A basic feature test OrdersController index route.
      */
     public function testOrderBooks(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -40,7 +39,6 @@ class OrderBookTest extends TestCase
      */
     public function testOrderBooksNotFoundByDoesntExist(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -58,7 +56,6 @@ class OrderBookTest extends TestCase
      */
     public function testOrderBooksNotFoundByDoesntBelongToUser(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(

@@ -18,7 +18,6 @@ class OrderTest extends TestCase
      */
     public function testOrders(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -40,7 +39,6 @@ class OrderTest extends TestCase
      */
     public function testOrdersSearch(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -63,7 +61,6 @@ class OrderTest extends TestCase
      */
     public function testOrdersSearchDoesntExist(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -85,7 +82,6 @@ class OrderTest extends TestCase
      */
     public function testGetOrder(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -107,7 +103,6 @@ class OrderTest extends TestCase
      */
     public function testGetOrderNotFoundByExists(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
@@ -125,7 +120,6 @@ class OrderTest extends TestCase
      */
     public function testGetOrderNotFoundByDoesntBelongToUser(): void
     {
-        $this->seed();
         $email = "jane@doe.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
