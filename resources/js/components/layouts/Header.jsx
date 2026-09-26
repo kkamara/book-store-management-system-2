@@ -28,20 +28,15 @@ export default function Header(props) {
   useEffect(() => {
     if (
       false === state.cart.loading &&
-      state.cart.data === null
+      null === state.cart.data
     ) {
       dispatch(getCart())
     }
   }, [state.cart.loading, state.cart.data])
 
   useEffect(() => {
-    if (
-      false === state.auth.loading &&
-      state.auth.data === null
-    ) {
-      dispatch(authorize())
-    }
-  }, [state.auth.loading, state.auth.data])
+    dispatch(authorize())
+  }, [])
 
   const renderNavLinks = () => {
     if(state.auth.data) {
