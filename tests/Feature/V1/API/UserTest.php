@@ -1,46 +1,17 @@
 <?php
 
-namespace Tests\Unit\V1\API;
+namespace Tests\Feature\V1\API;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 use App\Models\V1\User;
-use Illuminate\Foundation\Testing\RefreshDatabaseState;
-use Illuminate\Contracts\Console\Kernel;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     protected $headers = ['Content-Type' => 'application/json'];
-
-    /**
-     * Refresh a conventional test database.
-     *
-     * @return void
-     */
-    protected function refreshTestDatabase()
-    {
-        if (!RefreshDatabaseState::$migrated) {
-            $this->artisan(
-                'migrate:fresh',
-                array_merge(
-                    $this->migrateFreshUsing(),
-                    [
-                        "--path" => "database/migrations/v1"
-                    ],
-                )
-            );
-
-            $this->app[Kernel::class]->setArtisan(null);
-
-            RefreshDatabaseState::$migrated = true;
-        }
-
-        $this->beginDatabaseTransaction();
-    }
 
     public function testRegisterUser()
     {
