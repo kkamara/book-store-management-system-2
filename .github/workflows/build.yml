@@ -24,13 +24,17 @@ jobs:
         php-versions: ['8.4']
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup PHP, with Composer and extensions
         uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo, mysql
           coverage: none
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
       - name: Start MySQL service
         run: sudo /etc/init.d/mysql start
       - name: Install Composer dependencies
@@ -50,9 +54,9 @@ jobs:
       - name: Change directory permissions
         run: chmod -R 777 storage bootstrap/cache
       - name: Install JavaScript packages
-        run: npm install --quiet --no-progress 
+        run: yarn install --silent --no-progress
       - name: Build JavaScript packages
-        run: npm run build
+        run: yarn build
       - name: Run Laravel server
         run: php artisan serve --port=3000 --no-reload &
       - name: Curl to localhost
