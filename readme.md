@@ -12,7 +12,7 @@
 
 <img src="https://github.com/kkamara/useful/blob/main/book-store-management-system6.png?raw=true" alt="book-store-management-system6.png" width=""/>
 
-# Book Store Management System [![API](https://github.com/kkamara/book-store-management-system/actions/workflows/build.yml/badge.svg)](https://github.com/kkamara/book-store-management-system/actions/workflows/build.yml)
+# Book Store Management System 2 [![API](https://github.com/kkamara/book-store-management-system-2/actions/workflows/build.yml/badge.svg)](https://github.com/kkamara/book-store-management-system-2/actions/workflows/build.yml)
 
 (26-Sep-2026) V2 of https://github.com/kkamara/book-store-management-system . Laravel 11 to 13 upgrade, React 18 to 19 upgrade, structural improvements, and a new Material UI design.
 
