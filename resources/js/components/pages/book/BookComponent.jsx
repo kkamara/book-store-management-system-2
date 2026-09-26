@@ -2,7 +2,7 @@ import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
 import { useParams, useNavigate, } from 'react-router'
 import moment from 'moment'
-import ReactPaginate from 'react-paginate'
+import ReactPaginateModule from 'react-paginate'
 import { Helmet, } from "react-helmet"
 import { getBook, } from '../../../redux/actions/bookActions'
 import { getReviews, } from '../../../redux/actions/reviewsActions'
@@ -10,6 +10,8 @@ import { authorize, } from '../../../redux/actions/authActions'
 import { addToCart, } from '../../../redux/actions/cartActions'
 
 import "./BookComponent.scss"
+
+const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
 export default function BookComponent() {
   const dispatch = useDispatch()
@@ -151,7 +153,11 @@ export default function BookComponent() {
   ) {
     console.log('book', state.book.data)
   }
-  if (state.book.loading || state.reviews.loading) {
+  if (
+    state.auth.loading ||
+    state.book.loading ||
+    state.reviews.loading
+  ) {
     return <div className="container book-container text-center">
       <Helmet>
           <title>{import.meta.env.VITE_APP_NAME}</title>

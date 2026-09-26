@@ -104,7 +104,11 @@ export default function OrderComponent() {
   ) {
     console.log('orderBooks', state.orderBooks.data)
   }
-  if (state.order.loading || state.orderBooks.loading) {
+  if (
+    state.auth.loading ||
+    state.order.loading ||
+    state.orderBooks.loading
+  ) {
     return <div className="container order-container text-center">
       <Helmet>
           <title>My Order | {import.meta.env.VITE_APP_NAME}</title>

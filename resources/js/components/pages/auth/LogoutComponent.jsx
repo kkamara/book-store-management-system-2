@@ -19,7 +19,7 @@ export default function LogoutComponent() {
     if (token !== null) {
       dispatch(logout())
     }
-  })
+  }, [])
 
   useEffect(() => {
     token = localStorage.getItem("user-token")

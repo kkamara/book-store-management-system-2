@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
 import { useNavigate, } from "react-router"
-import ReactPaginate from 'react-paginate'
+import ReactPaginateModule from 'react-paginate'
 import moment from 'moment'
 import { Helmet, } from "react-helmet"
 import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome"
@@ -10,6 +10,8 @@ import { authorize, } from '../../../redux/actions/authActions'
 import { getOrders, } from '../../../redux/actions/ordersActions'
 
 import "./OrdersComponent.scss"
+
+const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
 export default function OrdersComponent() {
   const navigate = useNavigate()
@@ -185,7 +187,7 @@ export default function OrdersComponent() {
   ) {
     console.log('auth', state.auth.data)
   }
-  if (state.auth.loading) {
+  if (state.auth.loading || state.orders.loading) {
     return <div className="container orders-container text-center">
       <Helmet>
           <title>My Orders | {import.meta.env.VITE_APP_NAME}</title>

@@ -60,7 +60,7 @@ export default function LoginComponent() {
         <div className="col-md-4 offset-md-4">
           <h3 className="lead">Login</h3>
           <form method="post" onSubmit={onFormSubmit}>
-            {state.auth.error ?
+            {state.auth.error && "Token not set." !== state.auth.error ?
               <div className="alert alert-warning alert-dismissible fade show" role="alert">
                 {state.auth.error}
                 <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

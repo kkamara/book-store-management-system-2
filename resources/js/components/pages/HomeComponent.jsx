@@ -1,11 +1,13 @@
 import React, { useEffect, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
-import ReactPaginate from 'react-paginate'
+import ReactPaginateModule from 'react-paginate'
 import moment from 'moment'
 import { Helmet, } from "react-helmet"
 import { getHome, } from '../../redux/actions/homeActions'
 
 import "./HomeComponent.scss"
+
+const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
 export default function HomeComponent() {
   const dispatch = useDispatch()
