@@ -187,7 +187,7 @@ export default function OrdersComponent() {
   ) {
     console.log('auth', state.auth.data)
   }
-  if (state.auth.loading) {
+  if (state.auth.loading || state.orders.loading) {
     return <div className="container orders-container text-center">
       <Helmet>
           <title>My Orders | {import.meta.env.VITE_APP_NAME}</title>

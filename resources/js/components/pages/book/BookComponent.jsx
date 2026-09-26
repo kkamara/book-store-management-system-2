@@ -153,7 +153,11 @@ export default function BookComponent() {
   ) {
     console.log('book', state.book.data)
   }
-  if (state.book.loading || state.reviews.loading) {
+  if (
+    state.auth.loading ||
+    state.book.loading ||
+    state.reviews.loading
+  ) {
     return <div className="container book-container text-center">
       <Helmet>
           <title>{import.meta.env.VITE_APP_NAME}</title>
