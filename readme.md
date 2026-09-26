@@ -83,7 +83,7 @@ POST       api/user/register ................... V1\API\UserController@register
 ## Unit Tests
 
 ```bash
-php artisan test --filter=V1
+php artisan test --filter=Feature
 ```
 
 View the unit test code [here](./tests/Feature/V1).
