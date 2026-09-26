@@ -58,14 +58,15 @@ php artisan key:generate
 # Note that the following path is fixed for Powershell usage.
 php artisan migrate --path=database\migrations\v1 --seed
 yarn install
-yarn build
 ```
 
 ## Usage
 
 ```bash
-herd link book
-# Website accessible at http://book.test
+php artisan serve --no-reload
+# Open a second terminal and run
+yarn dev
+# for the React app
 ```
 
 ## API Documentation
