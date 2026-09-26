@@ -38,7 +38,6 @@ jobs:
       - name: Prepare environment
         run: |
           cp .env.example .env
-          sed -i "s/APP_ENV=local/APP_ENV=test/g" .env
           sed -i "s/3306/${{ job.services.mysql.ports['3306'] }}/g" .env
           sed -i "s/DB_USERNAME=root/DB_USERNAME=user/g" .env
           sed -i "s/DB_PASSWORD=/DB_PASSWORD=secret/g" .env
