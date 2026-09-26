@@ -17,7 +17,7 @@ class CartTest extends TestCase
      */
     public function testCart(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
@@ -42,7 +42,7 @@ class CartTest extends TestCase
      */
     public function testCartUpdateAddItems(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
@@ -77,7 +77,7 @@ class CartTest extends TestCase
      */
     public function testCartDuplicateUpdateAddItems(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
@@ -115,7 +115,7 @@ class CartTest extends TestCase
      */
     public function testCartUpdateClearItems(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
@@ -133,7 +133,7 @@ class CartTest extends TestCase
      */
     public function testCartAddToCart(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
@@ -169,7 +169,7 @@ class CartTest extends TestCase
      */
     public function testCartAddToCartAddsQuantity(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
@@ -206,7 +206,7 @@ class CartTest extends TestCase
      */
     public function testCartRemoveFromCart(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,

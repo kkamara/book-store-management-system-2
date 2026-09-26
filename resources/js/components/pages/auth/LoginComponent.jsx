@@ -9,7 +9,7 @@ import "./LoginComponent.scss"
 export default function LoginComponent() {
   const navigate = useNavigate()
 
-  const [email, setEmail] = useState("jane@doe.com")
+  const [email, setEmail] = useState("jane@example.com")
   const [password, setPassword] = useState("secret")
 
   const dispatch = useDispatch()

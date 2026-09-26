@@ -18,7 +18,7 @@ class OrderBookTest extends TestCase
      */
     public function testOrderBooks(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
@@ -39,7 +39,7 @@ class OrderBookTest extends TestCase
      */
     public function testOrderBooksNotFoundByDoesntExist(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
@@ -56,7 +56,7 @@ class OrderBookTest extends TestCase
      */
     public function testOrderBooksNotFoundByDoesntBelongToUser(): void
     {
-        $email = "jane@doe.com";
+        $email = "jane@example.com";
         $user = User::where(compact("email"))->firstOrFail();
         Sanctum::actingAs(
             $user,
