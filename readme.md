@@ -80,15 +80,13 @@ POST       api/user/register ................... V1\API\UserController@register
 ...
 ```
 
-View the api collection [here](https://documenter.getpostman.com/view/17125932/TzzAKvVe).
-
 ## Unit Tests
 
 ```bash
 php artisan test --filter=V1
 ```
 
-View the unit test code [here](https://raw.githubusercontent.com/kkamara/php-reactjs-boilerplate/main/tests/Unit/Api/UsersTest.php).
+View the unit test code [here](./tests/Feature/V1).
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
