@@ -8,12 +8,21 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\V1\User;
 use App\Enums\V1\BookEdition;
 use Illuminate\Support\Str;
+use FakerRestaurant\Provider\en_US\Restaurant;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\V1\Book>
  */
 class BookFactory extends Factory
 {
+    protected function withFaker()
+    {
+        $faker = parent::withFaker();
+        $faker->addProvider(new Restaurant($faker));
+
+        return $faker;
+    }
+
     /**
      * Define the model's default state.
      *
@@ -21,7 +30,15 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
-        $name = sprintf("(Sample Book) %s", $this->faker->company());
+        $name = ucwords(match(mt_rand(0, 6)) {
+            0 => $this->faker->foodName(),
+            1 => $this->faker->beverageName(),
+            2 => $this->faker->dairyName(),
+            3 => $this->faker->vegetableName(),
+            4 => $this->faker->fruitName(),
+            5 => $this->faker->meatName(),
+            6 => $this->faker->sauceName(),
+        });
 
         $isbn13 = null;
         $isbn10 = null;

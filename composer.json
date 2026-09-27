@@ -34,6 +34,7 @@
     "require": {
         "php": "^8.4",
         "filament/filament": "^3.2",
+        "jzonta/faker-restaurant": "^2.0",
         "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0"
