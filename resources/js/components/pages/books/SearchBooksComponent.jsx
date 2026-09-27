@@ -176,7 +176,7 @@ export default function SearchBooksComponent() {
           }}
         >
           {state.searchBooks.data.data.map((book, index) => (
-            <Card key={index} sx={{ width: 288, }}>
+            <Card key={index} sx={{ width: 288, display: 'flex', flexDirection: 'column', }}>
               <Link to={`/books/${book.slug}`}>
                 <CardMedia
                   component="img"
@@ -186,7 +186,7 @@ export default function SearchBooksComponent() {
                   sx={{ objectFit: 'contain', pt: 1, }}
                 />
               </Link>
-              <CardContent>
+              <CardContent sx={{ flexGrow: 1, }}>
                 <Typography
                   variant="h6"
                   sx={{

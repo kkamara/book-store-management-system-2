@@ -74,13 +74,13 @@ export default function CartComponent() {
     return (
       <Stack spacing={2}>
         {state.cart.data.data.map((cartItem, index) => (
-          <Card key={index}>
-            <CardContent sx={{ textAlign: 'left', }}>
+          <Card key={index} sx={{ display: 'flex', flexDirection: 'column', }}>
+            <CardContent sx={{ textAlign: 'left', flexGrow: 1, display: 'flex', flexDirection: 'column', }}>
               <Typography variant="h6">{cartItem.book.name}</Typography>
               <Typography variant="body2" sx={{ mb: 2, }}>
                 Cost: £{cartItem.cost}
               </Typography>
-              <Stack direction="row" alignItems="center" justifyContent="space-between">
+              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mt: 'auto', }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <IconButton
                     size="small"
