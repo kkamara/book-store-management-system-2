@@ -1,16 +1,14 @@
-<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system7.png?raw=true" alt="book-store-management-system7.png" width=""/>
+<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-2.png?raw=true" alt="book-store-management-system-2.png" width=""/>
 
-<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system.png?raw=true" alt="book-store-management-system.png" width=""/>
+<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-2(1).png?raw=true" alt="book-store-management-system-2(1).png" width=""/>
 
-<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system2.png?raw=true" alt="book-store-management-system2.png" width=""/>
+<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-2(2).png?raw=true" alt="book-store-management-system-2(2).png" width=""/>
 
-<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system3.png?raw=true" alt="book-store-management-system3.png" width=""/>
+<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-2(3).png?raw=true" alt="book-store-management-system-2(3).png" width=""/>
 
-<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system4.png?raw=true" alt="book-store-management-system4.png" width=""/>
+<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-2(4).png?raw=true" alt="book-store-management-system-2(4).png" width=""/>
 
-<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system5.png?raw=true" alt="book-store-management-system5.png" width=""/>
-
-<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system6.png?raw=true" alt="book-store-management-system6.png" width=""/>
+<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-2(5).png?raw=true" alt="book-store-management-system-2(5).png" width=""/>
 
 # Book Store Management System 2 [![API](https://github.com/kkamara/book-store-management-system-2/actions/workflows/build.yml/badge.svg)](https://github.com/kkamara/book-store-management-system-2/actions/workflows/build.yml)
 
