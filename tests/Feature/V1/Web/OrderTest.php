@@ -26,7 +26,7 @@ class OrderTest extends TestCase
         $orders = Order::where("user_id", $user->id)
             ->orderBy("id", "DESC")
             ->paginate(8);
-        $response = $this->getJson("/api/web/orders");
+        $response = $this->getJson("/api/v1/web/orders");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
         )
@@ -48,7 +48,7 @@ class OrderTest extends TestCase
             ->orderBy("id", "DESC")
             ->paginate(8);
         $referenceNumber = $orders->first()->reference_number;
-        $response = $this->getJson("/api/web/orders?query=".$referenceNumber);
+        $response = $this->getJson("/api/v1/web/orders?query=".$referenceNumber);
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
         )
@@ -69,7 +69,7 @@ class OrderTest extends TestCase
         $orders = Order::where("user_id", $user->id)
             ->orderBy("id", "DESC")
             ->paginate(8);
-        $response = $this->getJson("/api/web/orders?query=doesntexist");
+        $response = $this->getJson("/api/v1/web/orders?query=doesntexist");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
         )
@@ -90,7 +90,7 @@ class OrderTest extends TestCase
         $order = Order::where("user_id", $user->id)
             ->inRandomOrder()
             ->firstOrFail();
-        $response = $this->getJson("/api/web/orders/".$order->reference_number);
+        $response = $this->getJson("/api/v1/web/orders/".$order->reference_number);
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("data")
         )
@@ -108,7 +108,7 @@ class OrderTest extends TestCase
         Sanctum::actingAs(
             $user,
         );
-        $response = $this->getJson("/api/web/orders/doesntexist");
+        $response = $this->getJson("/api/v1/web/orders/doesntexist");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("message")
         )
@@ -128,7 +128,7 @@ class OrderTest extends TestCase
         $order = Order::where("user_id", "!=", $user->id)
             ->inRandomOrder()
             ->firstOrFail();
-        $response = $this->getJson("/api/web/orders/".$order->reference_number);
+        $response = $this->getJson("/api/v1/web/orders/".$order->reference_number);
         $response->assertJson(value: fn (AssertableJson $json) =>
             $json->has("message")
         )

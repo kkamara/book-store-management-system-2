@@ -21,7 +21,7 @@ class UserTest extends TestCase
             $user,
         );
         $response = $this->patchJson(
-            '/api/web/user/account',
+            '/api/v1/web/user/account',
             [
                 "name" => $newName,
                 "password" => "secret",

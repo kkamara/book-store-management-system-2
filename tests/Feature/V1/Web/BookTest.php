@@ -16,7 +16,7 @@ class BookTest extends TestCase
     public function testSearchBooks(): void
     {
         $response = $this->getJson(
-            "/api/web/books/search",
+            "/api/v1/web/books/search",
         );
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
@@ -33,7 +33,7 @@ class BookTest extends TestCase
             ->inRandomOrder()
             ->firstOrFail();
         $response = $this->getJson(
-            "/api/web/books/search?query=".$book->name,
+            "/api/v1/web/books/search?query=".$book->name,
         );
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
@@ -109,7 +109,7 @@ class BookTest extends TestCase
                 break;
         }
         $response = $this->getJson(
-            "/api/web/books/search?".$editionSearchFilterKey."=1",
+            "/api/v1/web/books/search?".$editionSearchFilterKey."=1",
         );
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
@@ -129,7 +129,7 @@ class BookTest extends TestCase
             ->firstOrFail();
         $categoryName = $book->categories()->firstOrFail()->name;
         $response = $this->getJson(
-            "/api/web/books/search?category=".$categoryName,
+            "/api/v1/web/books/search?category=".$categoryName,
         );
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
@@ -144,7 +144,7 @@ class BookTest extends TestCase
     public function testBook(): void
     {
         $book = Book::where("approved", 1)->firstOrFail();
-        $response = $this->getJson("/api/web/books/".$book->slug);
+        $response = $this->getJson("/api/v1/web/books/".$book->slug);
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("data")
                 ->missing("message")
@@ -158,7 +158,7 @@ class BookTest extends TestCase
      */
     public function testBookNotFoundByExists(): void
     {
-        $response = $this->getJson("/api/web/books/doesnt-exist");
+        $response = $this->getJson("/api/v1/web/books/doesnt-exist");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("message")
                 ->missing("data")
@@ -173,7 +173,7 @@ class BookTest extends TestCase
     public function testBookNotFoundByApproved(): void
     {
         $book = Book::where("approved", "!=", 1)->firstOrFail();
-        $response = $this->getJson("/api/web/books/".$book->slug);
+        $response = $this->getJson("/api/v1/web/books/".$book->slug);
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("message")
                 ->missing("data")

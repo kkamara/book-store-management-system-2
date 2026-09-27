@@ -18,7 +18,7 @@ class ReviewTest extends TestCase
         $reviews = $book->reviews()
             ->where("approved", 1)
             ->paginate(3);
-        $response = $this->getJson("/api/web/books/".$book->slug."/reviews");
+        $response = $this->getJson("/api/v1/web/books/".$book->slug."/reviews");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
                 ->missing("message")
@@ -32,7 +32,7 @@ class ReviewTest extends TestCase
      */
     public function testBookNotFoundByExists(): void
     {
-        $response = $this->getJson("/api/web/books/doesnt-exist");
+        $response = $this->getJson("/api/v1/web/books/doesnt-exist");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("message")
                 ->missing("data")
@@ -47,7 +47,7 @@ class ReviewTest extends TestCase
     public function testBookNotFoundByApproved(): void
     {
         $book = Book::where("approved", "!=", 1)->firstOrFail();
-        $response = $this->getJson("/api/web/books/".$book->slug);
+        $response = $this->getJson("/api/v1/web/books/".$book->slug);
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("message")
                 ->missing("data")

@@ -26,7 +26,7 @@ class OrderBookTest extends TestCase
         $order = Order::where("user_id", $user->id)
             ->inRandomOrder()
             ->firstOrFail();
-        $response = $this->getJson("/api/web/orders/".$order->reference_number."/products");
+        $response = $this->getJson("/api/v1/web/orders/".$order->reference_number."/products");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("data")
         )
@@ -44,7 +44,7 @@ class OrderBookTest extends TestCase
         Sanctum::actingAs(
             $user,
         );
-        $response = $this->getJson("/api/web/orders/doesntexist/products");
+        $response = $this->getJson("/api/v1/web/orders/doesntexist/products");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("message")
         )
@@ -64,7 +64,7 @@ class OrderBookTest extends TestCase
         $order = Order::where("user_id", "!=", $user->id)
             ->inRandomOrder()
             ->firstOrFail();
-        $response = $this->getJson("/api/web/orders/".$order->reference_number."/products");
+        $response = $this->getJson("/api/v1/web/orders/".$order->reference_number."/products");
         $response->assertJson(value: fn (AssertableJson $json) =>
             $json->has("message")
         )

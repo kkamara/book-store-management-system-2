@@ -24,7 +24,7 @@ class CartTest extends TestCase
         );
         $cart = Cart::factory()
             ->create(["user_id" => $user->id]);
-        $response = $this->getJson("/api/web/cart");
+        $response = $this->getJson("/api/v1/web/cart");
         
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("data")
@@ -52,7 +52,7 @@ class CartTest extends TestCase
         $book = Book::inRandomOrder()->firstOrFail();
         $quantity = mt_rand(1, 5);
         $response = $this->postJson(
-            "/api/web/cart/update",
+            "/api/v1/web/cart/update",
             [
                 "cart" => [
                     [
@@ -87,7 +87,7 @@ class CartTest extends TestCase
         $book = Book::inRandomOrder()->firstOrFail();
         $quantity = mt_rand(1, 5);
         $response = $this->postJson(
-            "/api/web/cart/update",
+            "/api/v1/web/cart/update",
             [
                 "cart" => [
                     [
@@ -122,7 +122,7 @@ class CartTest extends TestCase
         );
         $cart = Cart::factory()
             ->create(["user_id" => $user->id]);
-        $response = $this->postJson("/api/web/cart/update");
+        $response = $this->postJson("/api/v1/web/cart/update");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->has("data")
         );
@@ -147,7 +147,7 @@ class CartTest extends TestCase
                     ->id,
             ]);
         $response = $this->postJson(
-            "/api/web/cart",
+            "/api/v1/web/cart",
             [
                 "cart" => [
                     "bookId" => $book->id,
@@ -182,7 +182,7 @@ class CartTest extends TestCase
                 "quantity" => 1,
             ]);
         $response = $this->postJson(
-            "/api/web/cart",
+            "/api/v1/web/cart",
             [
                 "cart" => [
                     "bookId" => $book->id,
@@ -219,7 +219,7 @@ class CartTest extends TestCase
                 "quantity" => 1,
             ]);
         $response = $this->postJson(
-            "/api/web/cart/remove",
+            "/api/v1/web/cart/remove",
             [
                 "cart" => [
                     "bookId" => $book->id,
