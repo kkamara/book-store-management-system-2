@@ -1,33 +1,24 @@
-import React, { useEffect, } from 'react'
-import { useDispatch, useSelector, } from 'react-redux'
+import React, { useEffect, } from "react"
+import { useDispatch, useSelector, } from "react-redux"
 import { Helmet, } from "react-helmet"
-import { logout, } from '../../../redux/actions/authActions'
+import { logout, } from "../../../redux/actions/authActions"
 
 export default function LogoutComponent() {
   const dispatch = useDispatch()
   const authState = useSelector(state => state.auth)
 
-  useEffect(() => {}, [])
-
-  let token
-
   useEffect(() => {
-    token = localStorage.getItem("user-token")
-    if (token !== null) {
-      dispatch(logout())
-    }
+    dispatch(logout())
   }, [])
 
   if (authState.loading) {
     return <div className="container logout-container text-center">
       <Helmet>
-          <title>Logout | {import.meta.env.VITE_APP_NAME}</title>
+        <title>Logout | {import.meta.env.VITE_APP_NAME}</title>
       </Helmet>
       <p>Loading...</p>
     </div>
   }
 
-  return <Helmet>
-      <title>Logout | {import.meta.env.VITE_APP_NAME}</title>
-  </Helmet>
+  return null
 }
