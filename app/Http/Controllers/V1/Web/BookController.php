@@ -150,7 +150,7 @@ class BookController extends Controller
         }
         return new BookCollection(
             $books->where("approved", 1)
-                ->paginate(8)
+                ->paginate(9)
                 ->appends($request->query())
         );
     }

@@ -13,7 +13,7 @@ class HomeController extends Controller
         return new BookCollection(
             Book::orderBy("id", "DESC")
                 ->where("approved", 1)
-                ->paginate(8)
+                ->paginate(9)
                 ->appends($request->query())
         );
     }

@@ -16,7 +16,7 @@ class HomeTest extends TestCase
     {
         $book = Book::orderBy("id", "DESC")
             ->where("approved", 1)
-            ->paginate(8);
+            ->paginate(9);
         $response = $this->getJson("/api/v1/web/");
         $response->assertJson(fn (AssertableJson $json) =>
             $json->hasAll(["data", "links", "meta",])
