@@ -77,9 +77,9 @@ yarn dev
 php artisan route:list
 # output
 ...
-POST       api/user ............................ login › V1\API\UserController@login
-GET|HEAD   api/user/authorize .................. V1\API\UserController@authorizeUser
-POST       api/user/register ................... V1\API\UserController@register
+POST       api/v1/user ............................ login › V1\API\UserController@login
+GET|HEAD   api/v1/user/authorize .................. V1\API\UserController@authorizeUser
+POST       api/v1/user/register ................... V1\API\UserController@register
 ...
 ```
 

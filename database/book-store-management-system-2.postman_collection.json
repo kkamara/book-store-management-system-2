@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "5e08e7f0-50d6-4668-9270-64c7e9f4c86c",
+    "_postman_id": "e45328c3-afdd-415d-bddf-507a883a069b",
     "name": "book-store-management-system-2",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "17125932"
@@ -34,81 +34,7 @@
               ]
             }
           },
-          "response": [
-            {
-              "name": "Register User",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"first_name\": \"Jane\",\n    \"last_name\": \"Doe\",\n    \"email\": \"jane@example.com\",\n    \"password\": \"secret\",\n    \"password_confirmation\": \"secret\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{host}}/user/register",
-                  "host": [
-                    "{{host}}"
-                  ],
-                  "path": [
-                    "user",
-                    "register"
-                  ]
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Host",
-                  "value": "localhost:80"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 16 Apr 2022 17:31:23 GMT"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 16 Apr 2022 17:31:23 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "close"
-                },
-                {
-                  "key": "X-Powered-By",
-                  "value": "PHP/8.0.17"
-                },
-                {
-                  "key": "Cache-Control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "X-RateLimit-Limit",
-                  "value": "60"
-                },
-                {
-                  "key": "X-RateLimit-Remaining",
-                  "value": "59"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"data\": {\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"email\": \"jane@example.com\",\n        \"created_at\": \"2022-04-16T17:31:23.000000Z\",\n        \"updated_at\": \"2022-04-16T17:31:23.000000Z\",\n        \"token\": \"5|wwgfkvQpDtgpT8POT4dwXED8XGexIrYSzWKRdZBH\"\n    }\n}"
-            }
-          ]
+          "response": []
         },
         {
           "name": "Login User",
@@ -137,80 +63,7 @@
               ]
             }
           },
-          "response": [
-            {
-              "name": "Login User",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"email\": \"jane@example.com\",\n    \"password\": \"secret\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{host}}/user",
-                  "host": [
-                    "{{host}}"
-                  ],
-                  "path": [
-                    "user"
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Host",
-                  "value": "localhost:80"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 16 Apr 2022 17:31:43 GMT"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 16 Apr 2022 17:31:43 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "close"
-                },
-                {
-                  "key": "X-Powered-By",
-                  "value": "PHP/8.0.17"
-                },
-                {
-                  "key": "Cache-Control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "X-RateLimit-Limit",
-                  "value": "60"
-                },
-                {
-                  "key": "X-RateLimit-Remaining",
-                  "value": "58"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"data\": {\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"email\": \"jane@example.com\",\n        \"created_at\": \"2022-04-16T17:31:23.000000Z\",\n        \"updated_at\": \"2022-04-16T17:31:23.000000Z\",\n        \"token\": \"7|Z7kIRscHLDXk5DqBdu5OuzNTGQZllm8Cb3c8hlop\"\n    }\n}"
-            }
-          ]
+          "response": []
         },
         {
           "name": "Authorize User",
@@ -250,72 +103,7 @@
               ]
             }
           },
-          "response": [
-            {
-              "name": "Authorize User",
-              "originalRequest": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                  "raw": "{{host}}/user/authorize",
-                  "host": [
-                    "{{host}}"
-                  ],
-                  "path": [
-                    "user",
-                    "authorize"
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Host",
-                  "value": "localhost:80"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 16 Apr 2022 17:31:35 GMT"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 16 Apr 2022 17:31:35 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "close"
-                },
-                {
-                  "key": "X-Powered-By",
-                  "value": "PHP/8.0.17"
-                },
-                {
-                  "key": "Cache-Control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "X-RateLimit-Limit",
-                  "value": "60"
-                },
-                {
-                  "key": "X-RateLimit-Remaining",
-                  "value": "59"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"data\": {\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"email\": \"jane@example.com\",\n        \"created_at\": \"2022-04-16T17:31:23.000000Z\",\n        \"updated_at\": \"2022-04-16T17:31:23.000000Z\",\n        \"token\": \"6|p2ISZDjpMAk1yLWBqy3qctHXpRQPoQjhXWimbida\"\n    }\n}"
-            }
-          ]
+          "response": []
         },
         {
           "name": "Logout User",
@@ -352,153 +140,7 @@
               ]
             }
           },
-          "response": [
-            {
-              "name": "Login User",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"email\": \"jane@example.com\",\n    \"password\": \"secret\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{host}}/user",
-                  "host": [
-                    "{{host}}"
-                  ],
-                  "path": [
-                    "user"
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Host",
-                  "value": "localhost:80"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 16 Apr 2022 17:31:43 GMT"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sat, 16 Apr 2022 17:31:43 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "close"
-                },
-                {
-                  "key": "X-Powered-By",
-                  "value": "PHP/8.0.17"
-                },
-                {
-                  "key": "Cache-Control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "X-RateLimit-Limit",
-                  "value": "60"
-                },
-                {
-                  "key": "X-RateLimit-Remaining",
-                  "value": "58"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"data\": {\n        \"first_name\": \"Jane\",\n        \"last_name\": \"Doe\",\n        \"email\": \"jane@example.com\",\n        \"created_at\": \"2022-04-16T17:31:23.000000Z\",\n        \"updated_at\": \"2022-04-16T17:31:23.000000Z\",\n        \"token\": \"7|Z7kIRscHLDXk5DqBdu5OuzNTGQZllm8Cb3c8hlop\"\n    }\n}"
-            },
-            {
-              "name": "Logout User",
-              "originalRequest": {
-                "method": "DELETE",
-                "header": [],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n    \"email\": \"jane@example.com\",\n    \"password\": \"secret\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{host}}/user/logout",
-                  "host": [
-                    "{{host}}"
-                  ],
-                  "path": [
-                    "user",
-                    "logout"
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Host",
-                  "value": "localhost:80"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 17 Apr 2022 08:54:47 GMT"
-                },
-                {
-                  "key": "Date",
-                  "value": "Sun, 17 Apr 2022 08:54:47 GMT"
-                },
-                {
-                  "key": "Connection",
-                  "value": "close"
-                },
-                {
-                  "key": "X-Powered-By",
-                  "value": "PHP/8.0.17"
-                },
-                {
-                  "key": "Cache-Control",
-                  "value": "no-cache, private"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                },
-                {
-                  "key": "X-RateLimit-Limit",
-                  "value": "60"
-                },
-                {
-                  "key": "X-RateLimit-Remaining",
-                  "value": "58"
-                },
-                {
-                  "key": "Access-Control-Allow-Origin",
-                  "value": "*"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"message\": \"Success\"\n}"
-            }
-          ]
+          "response": []
         }
       ]
     },
@@ -507,24 +149,12 @@
       "item": [
         {
           "name": "Get Users",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "noauth"
             },
             "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{web}}/users",
               "host": [
@@ -539,24 +169,12 @@
         },
         {
           "name": "Home (Books)",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "noauth"
             },
             "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{web}}/",
               "host": [
@@ -571,24 +189,12 @@
         },
         {
           "name": "Search Books",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "noauth"
             },
             "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{web}}/books/search?category=Kirlin PLC&query=(Sample Book) Huel, Purdy and Christiansen",
               "host": [
@@ -689,9 +295,6 @@
         },
         {
           "name": "Get Orders",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -705,15 +308,6 @@
             },
             "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{web}}/orders?query=748268932",
               "host": [
@@ -734,9 +328,6 @@
         },
         {
           "name": "Get Order",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -750,15 +341,6 @@
             },
             "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{web}}/orders/788137744",
               "host": [
@@ -774,9 +356,6 @@
         },
         {
           "name": "Get Order Books",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -790,15 +369,6 @@
             },
             "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{web}}/orders/400175077/products",
               "host": [
@@ -815,24 +385,12 @@
         },
         {
           "name": "Get Book",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "noauth"
             },
             "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{web}}/books/sample-book-dibbert-heaney-and-lynch-475",
               "host": [
@@ -848,24 +406,12 @@
         },
         {
           "name": "Get Book Reviews",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
           "request": {
             "auth": {
               "type": "noauth"
             },
             "method": "GET",
             "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
             "url": {
               "raw": "{{web}}/books/sample-book-dibbert-heaney-and-lynch-475/reviews",
               "host": [
@@ -884,7 +430,14 @@
           "name": "Login User",
           "request": {
             "auth": {
-              "type": "noauth"
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
             },
             "method": "POST",
             "header": [],
