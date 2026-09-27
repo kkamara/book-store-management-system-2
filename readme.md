@@ -14,6 +14,8 @@
 
 (26-Sep-2026) V2 of https://github.com/kkamara/book-store-management-system . Laravel 11 to 13 upgrade, React 18 to 19 upgrade, structural improvements, and a new Material UI design.
 
+Mobile app at www.github.com/kkamara/book-store-management-system-mobile-2 .
+
 * [Using Postman?](#postman)
 
 * [Installation](#installation)
