@@ -18,11 +18,10 @@ export default function OrderComponent() {
   }))
   let { referenceNumber, } = useParams()
   const navigate = useNavigate()
-
+  
   useEffect(() => {
     dispatch(getOrder(referenceNumber))
-    dispatch(authorize())
-  }, [])
+  }, [referenceNumber])
 
   useEffect(() => {
     if (

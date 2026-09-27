@@ -24,19 +24,8 @@ export default function OrdersComponent() {
   const [page, setPage] = useState(1)
 
   useEffect(() => {
-    dispatch(authorize())
+    dispatch(getOrders())
   }, [])
-
-  useEffect(() => {
-    if (
-      !state.auth.loading &&
-      null === state.auth.data
-    ) {
-      navigate("/user/login")
-    } else {
-      dispatch(getOrders())
-    }
-  }, [state.auth])
 
   const handlePageChange = ({ selected, }) => {
     const newPage = selected + 1

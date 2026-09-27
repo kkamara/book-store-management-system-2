@@ -23,16 +23,7 @@ export default function AccountComponent() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(authorize())
-  }, [])
-
-  useEffect(() => {
     if (
-      !state.auth.loading &&
-      null === state.auth.data
-    ) {
-      navigate("/user/login")
-    } else if (
       !state.auth.loading &&
       typeof state.auth.data === "object" &&
       null !== state.auth.data &&

@@ -17,23 +17,26 @@ import Cart from "./components/pages/cart/CartComponent"
 import NotFound from "./components/pages/http/NotFoundComponent"
 
 import { url } from './utils/config'
+import AuthRoute from "./AuthRoute"
 
 export default () => {
   return (
     <>
       <Header/>
       <Routes>
+        <Route element={<AuthRoute/>}>
+          <Route path={url("/orders")} element={<Orders />}/>
+          <Route path={url("/orders/:referenceNumber")} element={<Order />}/>
+          <Route path={url("/user/account")} element={<Account />}/>
+          <Route path={url("/user/logout")} element={<Logout />}/>
+        </Route>
         <Route path={url("/")} element={<Home />}/>
         <Route path={url("/notfound")} element={<NotFound />}/>
-        <Route path={url("/orders")} element={<Orders />}/>
         <Route path={url("/cart")} element={<Cart />}/>
-        <Route path={url("/orders/:referenceNumber")} element={<Order />}/>
         <Route path={url("/books/search")} element={<SearchBooks />}/>
         <Route path={url("/books/:slug")} element={<Book />}/>
         <Route path={url("/user/login")} element={<Login />}/>
-        <Route path={url("/user/logout")} element={<Logout />}/>
         <Route path={url("/user/register")} element={<Register />}/>
-        <Route path={url("/user/account")} element={<Account />}/>
       </Routes>
       <Footer/>
     </>

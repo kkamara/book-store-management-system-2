@@ -21,13 +21,6 @@ export default function LogoutComponent() {
     }
   }, [])
 
-  useEffect(() => {
-    token = localStorage.getItem("user-token")
-    if (token === null) {
-      return navigate("/user/login")
-    }
-  }, [authState,])
-
   if (authState.loading) {
     return <div className="container logout-container text-center">
       <Helmet>
