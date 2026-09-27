@@ -1,14 +1,12 @@
 import React, { useEffect, useState, } from 'react'
-import { useNavigate, } from 'react-router-dom'
 import { useDispatch, useSelector, } from 'react-redux'
 import { Helmet, } from "react-helmet"
-import { authorize, } from '../../../redux/actions/authActions'
 import { update, } from '../../../redux/actions/updateAccountActions'
 
 import "./AccountComponent.scss"
+import ErrorComponent from '../../layouts/ErrorComponent'
 
 export default function AccountComponent() {
-  const navigate = useNavigate()
   const state = useSelector(state => ({
     auth: state.auth,
     updateAccount: state.updateAccount,
@@ -19,43 +17,43 @@ export default function AccountComponent() {
   const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [error, setError] = useState("")
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (
-      !state.auth.loading &&
-      typeof state.auth.data === "object" &&
-      null !== state.auth.data &&
-      !state.auth.error
-    ) {
-      setName(state.auth.data.name)
-      setEmail(state.auth.data.email)
-      setPassword("")
-      setPasswordConfirmation("")
-      setNewPassword("")
-      setNewPasswordConfirmation("")
-    }
-  }, [state.auth])
+    setName(state.auth.data.name)
+    setEmail(state.auth.data.email)
+    setPassword("")
+    setPasswordConfirmation("")
+    setNewPassword("")
+    setNewPasswordConfirmation("")
+    setError("")
+  }, [])
 
   useEffect(() => {
-    if (
-      !state.updateAccount.loading &&
-      typeof state.updateAccount.data === "object" &&
-      null !== state.updateAccount.data &&
-      !state.updateAccount.error
-    ) {
-      setName(state.updateAccount.data.name)
-      setEmail(state.updateAccount.data.email)
-      setPassword("")
-      setPasswordConfirmation("")
-      setNewPassword("")
-      setNewPasswordConfirmation("")
+    if (!state.updateAccount.loading) {
+      if (
+        typeof state.updateAccount.data === "object" &&
+        null !== state.updateAccount.data &&
+        !state.updateAccount.error
+      ) {
+        setName(state.updateAccount.data.name)
+        setEmail(state.updateAccount.data.email)
+        setPassword("")
+        setPasswordConfirmation("")
+        setNewPassword("")
+        setNewPasswordConfirmation("")
+        setError("")
+      } else if (state.updateAccount.error) {
+        setError(state.updateAccount.error)
+      }
     }
   }, [state.updateAccount])
 
   const onFormSubmit = (e) => {
     e.preventDefault()
+    setError("")
 
     dispatch(update({
       changePassword: newPassword,
@@ -129,11 +127,7 @@ export default function AccountComponent() {
         </div>
         <form className="row" onSubmit={onFormSubmit} method="post" >
           <div className="col-md-4 offset-md-4">
-            {state.updateAccount.error ?
-              <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                {state.updateAccount.error}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div> : null}
+            <ErrorComponent error={error}/>
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input 

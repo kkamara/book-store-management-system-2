@@ -1,4 +1,4 @@
-import React, { useEffect, } from 'react'
+import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
 import ReactPaginateModule from 'react-paginate'
 import moment from 'moment'
@@ -6,6 +6,7 @@ import { Helmet, } from "react-helmet"
 import { getHome, } from '../../redux/actions/homeActions'
 
 import "./HomeComponent.scss"
+import ErrorComponent from '../layouts/ErrorComponent'
 
 const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
@@ -14,10 +15,17 @@ export default function HomeComponent() {
   const state = useSelector(state => ({
     home: state.home,
   }))
+  const [error, setError] = useState("")
 
   useEffect(() => {
     dispatch(getHome())
   }, [])
+
+  useEffect(() => {
+    if (!state.home.loading && state.home.error) {
+      setError(state.home.error)
+    }
+  }, [state.home])
 
   const handlePageChange = ({ selected, }) => {
     const newPage = selected + 1
@@ -74,7 +82,7 @@ export default function HomeComponent() {
     return (
       <>
         {paginationDetail()}
-        <div className="col-md-12">
+        <div className="col-md-12 home-cards-wrapper">
           {state.home.data.data.map((book, index) => (
             <div key={index} className="card home-card">
               <a href={`/books/${book.slug}`}>
@@ -133,6 +141,9 @@ export default function HomeComponent() {
         <Helmet>
             <title>Home | {import.meta.env.VITE_APP_NAME}</title>
         </Helmet>
+        <div className="col-md-12">
+          <ErrorComponent error={error} />
+        </div>
         {pagination()}
         {renderList()}
         {pagination()}

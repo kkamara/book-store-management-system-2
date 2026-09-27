@@ -1,20 +1,18 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
-import { useNavigate, } from "react-router"
 import ReactPaginateModule from 'react-paginate'
 import moment from 'moment'
 import { Helmet, } from "react-helmet"
 import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome"
 import { faX, } from "@fortawesome/free-solid-svg-icons"
-import { authorize, } from '../../../redux/actions/authActions'
 import { getOrders, } from '../../../redux/actions/ordersActions'
 
 import "./OrdersComponent.scss"
+import ErrorComponent from '../../layouts/ErrorComponent'
 
 const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
 export default function OrdersComponent() {
-  const navigate = useNavigate()
   const dispatch = useDispatch()
   const state = useSelector(state => ({
     auth: state.auth,
@@ -22,10 +20,17 @@ export default function OrdersComponent() {
   }))
   const [query, setQuery] = useState("")
   const [page, setPage] = useState(1)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     dispatch(getOrders())
   }, [])
+
+  useEffect(() => {
+    if (!state.orders.loading && state.orders.error) {
+      setError(state.orders.error)
+    }
+  }, [state.orders])
 
   const handlePageChange = ({ selected, }) => {
     const newPage = selected + 1
@@ -42,6 +47,7 @@ export default function OrdersComponent() {
 
   const handleSearchFormSubmit = e => {
     e.preventDefault()
+    setError("")
     if (0 === query.length) {
       return
     }
@@ -191,6 +197,9 @@ export default function OrdersComponent() {
         <Helmet>
             <title>My Orders | {import.meta.env.VITE_APP_NAME}</title>
         </Helmet>
+        <div className="col-md-12">
+          <ErrorComponent error={error} />
+        </div>
         <div className="col-md-4">
           <form className="search-orders-form" onSubmit={handleSearchFormSubmit}>
             <div className="form-group query-orders-form-group">

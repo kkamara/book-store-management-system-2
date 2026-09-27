@@ -1,16 +1,15 @@
 import React, { useEffect, useState, } from 'react'
-import { useNavigate, } from 'react-router-dom'
 import { useDispatch, useSelector, } from 'react-redux'
 import { Helmet, } from "react-helmet"
 import { login, authorize, } from '../../../redux/actions/authActions'
 
 import "./LoginComponent.scss"
+import ErrorComponent from '../../layouts/ErrorComponent'
 
 export default function LoginComponent() {
-  const navigate = useNavigate()
-
   const [email, setEmail] = useState("jane@example.com")
   const [password, setPassword] = useState("secret")
+  const [error, setError] = useState("")
 
   const dispatch = useDispatch()
   const state = useSelector(state => ({
@@ -22,11 +21,14 @@ export default function LoginComponent() {
       window.location.href = "/"
     } else if (state.auth.loading) {
       dispatch(authorize())
+    } else if (state.auth.error) {
+      setError(state.auth.error)
     }
   }, [state.auth])
 
   const onFormSubmit = (e) => {
     e.preventDefault()
+    setError("")
 
     dispatch(login({ email, password, }))
 
@@ -60,11 +62,7 @@ export default function LoginComponent() {
         <div className="col-md-4 offset-md-4">
           <h3 className="lead">Login</h3>
           <form method="post" onSubmit={onFormSubmit}>
-            {state.auth.error && "Token not set." !== state.auth.error ?
-              <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                {state.auth.error}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div> : null}
+            <ErrorComponent error={error}/>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input 

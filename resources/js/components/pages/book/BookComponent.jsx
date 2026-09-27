@@ -30,18 +30,16 @@ export default function BookComponent() {
   }, [])
 
   useEffect(() => {
-    if (
-      !state.book.loading &&
-      typeof state.book.data === 'object' &&
-      null !== state.book.data
-    ) {
-      dispatch(getReviews(slug))
-    }
-  }, [state.book])
-
-  useEffect(() => {
-    if (state.book.error !== null) {
-      return navigate("/notfound")
+    if (!state.book.loading) {
+      if (
+        typeof state.book.data === 'object' &&
+        null !== state.book.data
+      ) {
+        dispatch(getReviews(slug))
+      }
+      if (state.book.error !== null) {
+        return navigate("/notfound")
+      }
     }
   }, [state.book])
 

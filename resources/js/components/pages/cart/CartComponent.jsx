@@ -1,15 +1,11 @@
-import React, { useEffect, } from 'react'
+import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
 import { useNavigate, } from "react-router"
 import { Helmet, } from "react-helmet"
 import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome"
 import { faMinus, faPlus, } from "@fortawesome/free-solid-svg-icons"
 import { authorize, } from '../../../redux/actions/authActions'
-import {
-  getCart,
-  addToCart,
-  removeFromCart,
-} from '../../../redux/actions/cartActions'
+import { addToCart, removeFromCart, } from '../../../redux/actions/cartActions'
 
 import "./CartComponent.scss"
 
@@ -20,21 +16,31 @@ export default function CartComponent() {
     auth: state.auth,
     cart: state.cart,
   }))
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     dispatch(authorize())
   }, [])
 
   useEffect(() => {
-    if (
-      !state.auth.loading &&
-      null === state.auth.data
-    ) {
-      navigate("/user/login")
-    } else {
-      dispatch(getCart())
+    if (!state.auth.loading) {
+      if (null === state.auth.data) {
+        navigate("/user/login")
+      } else if (state.auth.error) {
+        setError(state.auth.error)
+        setLoading(false)
+      }
     }
   }, [state.auth])
+
+  useEffect(() => {
+    if (!state.cart.error && null === state.cart.data) {
+      setLoading(true)
+    } else {
+      setLoading(false)
+    }
+  }, [state.cart])
 
   const handleAddToCart = bookId => {
     dispatch(addToCart(bookId))
@@ -108,7 +114,7 @@ export default function CartComponent() {
   ) {
     console.log('auth', state.auth.data)
   }
-  if (state.auth.loading || state.cart.loading) {
+  if (loading) {
     return <div className="container cart-container text-center">
       <Helmet>
           <title>Cart | {import.meta.env.VITE_APP_NAME}</title>

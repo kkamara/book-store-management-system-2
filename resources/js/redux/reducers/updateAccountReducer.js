@@ -28,6 +28,7 @@ export default function updateAccountReducer (state = initState, action) {
         ...state,
         data: action.payload,
         loading: false,
+        error: null,
       }
 
     default:

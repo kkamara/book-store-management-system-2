@@ -1,12 +1,9 @@
 import React, { useEffect, } from 'react'
-import { useNavigate, } from 'react-router-dom'
 import { useDispatch, useSelector, } from 'react-redux'
 import { Helmet, } from "react-helmet"
 import { logout, } from '../../../redux/actions/authActions'
 
 export default function LogoutComponent() {
-  const navigate = useNavigate()
-
   const dispatch = useDispatch()
   const authState = useSelector(state => state.auth)
 

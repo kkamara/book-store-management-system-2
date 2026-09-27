@@ -1,4 +1,5 @@
 import React, { useEffect, useState, } from 'react'
+import ErrorComponent from '../../layouts/ErrorComponent'
 import { useDispatch, useSelector, } from 'react-redux'
 import ReactPaginateModule from 'react-paginate'
 import moment from 'moment'
@@ -27,6 +28,7 @@ export default function SearchBooksComponent() {
   const [edition, setEdition] = useState(null)
   const [category, setCategory] = useState(null)
   const [orderById, setOrderById] = useState("desc")
+  const [error, setError] = useState("")
 
   useEffect(() => {
     dispatch(getSearchBooks())
@@ -35,22 +37,34 @@ export default function SearchBooksComponent() {
   }, [])
 
   useEffect(() => {
-    if (
-      !state.editions.loading &&
-      typeof state.editions.data === 'object' &&
-      null !== state.editions.data
-    ) {
-      setEditions(state.editions.data.data)
+    if (false === state.searchBooks.loading && state.searchBooks.error) {
+      setError(state.searchBooks.error)
+    }
+  }, [state.searchBooks])
+
+  useEffect(() => {
+    if (!state.editions.loading) {
+      if (
+        typeof state.editions.data === 'object' &&
+        null !== state.editions.data
+      ) {
+        setEditions(state.editions.data.data)
+      } else if (state.editions.error) {
+        setError(state.editions.error)
+      }
     }
   }, [state.editions])
 
   useEffect(() => {
-    if (
-      !state.categories.loading &&
-      typeof state.categories.data === 'object' &&
-      null !== state.categories.data
-    ) {
-      setCategories(state.categories.data.data)
+    if (!state.categories.loading) {
+      if (
+        typeof state.categories.data === 'object' &&
+        null !== state.categories.data
+      ) {
+        setCategories(state.categories.data.data)
+      } else if (state.categories.error) {
+        setError(state.categories.error)
+      }
     }
   }, [state.categories])
 
@@ -84,6 +98,7 @@ export default function SearchBooksComponent() {
 
   const handleSearchFormSubmit = e => {
     e.preventDefault()
+    setError("")
     const params = { orderById, }
     if (edition) {
       params.edition = edition
@@ -239,6 +254,7 @@ export default function SearchBooksComponent() {
             <title>Search Books | {import.meta.env.VITE_APP_NAME}</title>
         </Helmet>
         <form className="row search-books-form" onSubmit={handleSearchFormSubmit}>
+          <ErrorComponent error={error}/>
           <div className="col-md-4">
             <div className="form-group query-search-books-form-group">
               <label htmlFor="query">Search:</label>

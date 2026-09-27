@@ -5,7 +5,6 @@ import moment from 'moment'
 import { Helmet, } from "react-helmet"
 import { getOrder, } from '../../../redux/actions/orderActions'
 import { getOrderBooks, } from '../../../redux/actions/orderBooksActions'
-import { authorize, } from '../../../redux/actions/authActions'
 
 import "./OrderComponent.scss"
 
@@ -24,29 +23,17 @@ export default function OrderComponent() {
   }, [referenceNumber])
 
   useEffect(() => {
-    if (
-      !state.order.loading &&
-      typeof state.order.data === 'object' &&
-      null !== state.order.data
-    ) {
-      dispatch(getOrderBooks(referenceNumber))
+    if (!state.order.loading) {
+      if (
+        typeof state.order.data === 'object' &&
+        null !== state.order.data
+      ) {
+        dispatch(getOrderBooks(referenceNumber))
+      } else if (null !== state.order.error) {
+        return navigate("/notfound")
+      }
     }
   }, [state.order])
-
-  useEffect(() => {
-    if (state.order.error !== null) {
-      return navigate("/notfound")
-    }
-  }, [state.order])
-
-  useEffect(() => {
-    if (
-      !state.auth.loading &&
-      null === state.auth.data
-    ) {
-      navigate("/user/login")
-    }
-  }, [state.auth])
 
   const parseDate = date => moment(date).format('YYYY-MM-DD hh:mm')
 

@@ -5,6 +5,7 @@ import { Helmet, } from "react-helmet"
 import { register, authorize, } from '../../../redux/actions/authActions'
 
 import "./RegisterComponent.scss"
+import ErrorComponent from '../../layouts/ErrorComponent'
 
 export default function RegisterComponent() {
   const navigate = useNavigate()
@@ -13,6 +14,7 @@ export default function RegisterComponent() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
+  const [error, setError] = useState("")
 
   const dispatch = useDispatch()
   const authState = useSelector(state => (state.auth))
@@ -22,11 +24,14 @@ export default function RegisterComponent() {
       return navigate("/")
     } else if (authState.loading) {
       dispatch(authorize())
+    } else if (authState.error) {
+      setError(authState.error)
     }
   }, [authState,])
 
   const onFormSubmit = (e) => {
     e.preventDefault()
+    setError("")
 
     dispatch(register({
       password_confirmation: passwordConfirmation,
@@ -75,11 +80,7 @@ export default function RegisterComponent() {
         <div className="col-md-4 offset-md-4">
           <h3 className="lead">Register</h3>
           <form method="post" onSubmit={onFormSubmit}>
-            {authState.error && "Token not set." !== authState.error ?
-              <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                {authState.error}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div> : null}
+            <ErrorComponent error={error}/>
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input 

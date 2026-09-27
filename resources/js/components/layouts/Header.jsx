@@ -26,16 +26,8 @@ export default function Header(props) {
   }, [state.cart.data])
 
   useEffect(() => {
-    if (
-      false === state.cart.loading &&
-      null === state.cart.data
-    ) {
-      dispatch(getCart())
-    }
-  }, [state.cart.loading, state.cart.data])
-
-  useEffect(() => {
     dispatch(authorize())
+      dispatch(getCart())
   }, [])
 
   const renderNavLinks = () => {
