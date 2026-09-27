@@ -1,9 +1,16 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
 import { Helmet, } from "react-helmet"
+import Container from '@mui/material/Container'
+import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import CircularProgress from '@mui/material/CircularProgress'
 import { login, authorize, } from '../../../redux/actions/authActions'
 
-import "./LoginComponent.scss"
 import ErrorComponent from '../../layouts/ErrorComponent'
 
 export default function LoginComponent() {
@@ -45,56 +52,53 @@ export default function LoginComponent() {
   }
 
   if (state.auth.loading) {
-    return <div className='container login-container text-center'>
-      <Helmet>
+    return (
+      <Container maxWidth="xs" sx={{ textAlign: 'center', }}>
+        <Helmet>
           <title>Login | {import.meta.env.VITE_APP_NAME}</title>
-      </Helmet>
-      <p>Loading...</p>
-    </div>
+        </Helmet>
+        <CircularProgress />
+      </Container>
+    )
   }
 
   return (
-    <>
-      <div className='container login-container'>
-        <Helmet>
-            <title>Login | {import.meta.env.VITE_APP_NAME}</title>
-        </Helmet>
-        <div className="col-md-4 offset-md-4">
-          <h3 className="lead">Login</h3>
-          <form method="post" onSubmit={onFormSubmit}>
-            <ErrorComponent error={error}/>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input 
-                name="email" 
-                className="form-control"
-                value={email}
-                onChange={onEmailChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input 
-                type="password"
-                name="password" 
-                className="form-control"
-                value={password}
-                onChange={onPasswordChange}
-              />
-            </div>
-            <a 
-              href="/user/register" 
-              className="btn btn-primary"
-            >
-              Register
-            </a>
-            <input 
-              type="submit" 
-              className="btn btn-success" 
+    <Container maxWidth="xs">
+      <Helmet>
+        <title>Login | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <Paper sx={{ p: 4, }}>
+        <Typography variant="h5" sx={{ mb: 2, }}>Login</Typography>
+        <ErrorComponent error={error}/>
+        <Box component="form" onSubmit={onFormSubmit}>
+          <Stack spacing={2}>
+            <TextField
+              label="Email"
+              name="email"
+              fullWidth
+              value={email}
+              onChange={onEmailChange}
             />
-          </form>
-        </div>
-      </div>
-    </>       
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              fullWidth
+              value={password}
+              onChange={onPasswordChange}
+            />
+            <Stack direction="row" spacing={2} justifyContent="space-between">
+              <Button href="/user/register" variant="outlined">
+                Register
+              </Button>
+              <Button type="submit" variant="contained" color="success">
+                Login
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </Paper>
+    </Container>
   )
 }
+

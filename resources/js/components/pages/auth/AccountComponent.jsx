@@ -1,9 +1,16 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
 import { Helmet, } from "react-helmet"
+import Container from '@mui/material/Container'
+import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import CircularProgress from '@mui/material/CircularProgress'
 import { update, } from '../../../redux/actions/updateAccountActions'
 
-import "./AccountComponent.scss"
 import ErrorComponent from '../../layouts/ErrorComponent'
 
 export default function AccountComponent() {
@@ -106,95 +113,80 @@ export default function AccountComponent() {
   }
 
   if (state.auth.loading || state.updateAccount.loading) {
-    return <div className='container login-container text-center'>
-      <Helmet>
+    return (
+      <Container maxWidth="sm" sx={{ textAlign: 'center', }}>
+        <Helmet>
           <title>Account | {import.meta.env.VITE_APP_NAME}</title>
-      </Helmet>
-      <p>Loading...</p>
-    </div>
+        </Helmet>
+        <CircularProgress />
+      </Container>
+    )
   }
 
   return (
-    <>
-      <div className='container login-container'>
-        <Helmet>
-            <title>Account | {import.meta.env.VITE_APP_NAME}</title>
-        </Helmet>
-        <div className="row">
-          <div className="col-md-4 offset-md-4">
-            <h3 className="lead">Account</h3>
-          </div>
-        </div>
-        <form className="row" onSubmit={onFormSubmit} method="post" >
-          <div className="col-md-4 offset-md-4">
-            <ErrorComponent error={error}/>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input 
-                name="name"
-                className="form-control"
-                value={name}
-                onChange={onNameChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input 
-                name="email" 
-                className="form-control"
-                value={email}
-                onChange={onEmailChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Change Password</label>
-              <input 
-                type="password"
-                name="newPassword" 
-                className="form-control"
-                value={newPassword}
-                onChange={onChangePasswordChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Change Password Confirmation</label>
-              <input 
-                type="password"
-                name="newPasswordConfirmation" 
-                className="form-control"
-                value={newPasswordConfirmation}
-                onChange={onChangePasswordConfirmationChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input 
-                type="password"
-                name="password" 
-                className="form-control"
-                value={password}
-                onChange={onPasswordChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password_confirmation">Password Confirmation</label>
-              <input 
-                type="password"
-                name="password_confirmation" 
-                className="form-control"
-                value={passwordConfirmation}
-                onChange={onPasswordConfirmationChange}
-              />
-            </div>
-            <div className="form-group account-buttons-container">
-              <input 
-                type="submit" 
-                className="btn btn-success" 
-              />
-            </div>
-          </div>
-        </form>
-      </div>
-    </>       
+    <Container maxWidth="sm">
+      <Helmet>
+        <title>Account | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <Paper sx={{ p: 4, }}>
+        <Typography variant="h5" sx={{ mb: 2, }}>Account</Typography>
+        <ErrorComponent error={error}/>
+        <Box component="form" onSubmit={onFormSubmit}>
+          <Stack spacing={2}>
+            <TextField
+              label="Name"
+              name="name"
+              fullWidth
+              value={name}
+              onChange={onNameChange}
+            />
+            <TextField
+              label="Email"
+              name="email"
+              fullWidth
+              value={email}
+              onChange={onEmailChange}
+            />
+            <TextField
+              label="Change Password"
+              type="password"
+              name="newPassword"
+              fullWidth
+              value={newPassword}
+              onChange={onChangePasswordChange}
+            />
+            <TextField
+              label="Change Password Confirmation"
+              type="password"
+              name="newPasswordConfirmation"
+              fullWidth
+              value={newPasswordConfirmation}
+              onChange={onChangePasswordConfirmationChange}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              fullWidth
+              value={password}
+              onChange={onPasswordChange}
+            />
+            <TextField
+              label="Password Confirmation"
+              type="password"
+              name="password_confirmation"
+              fullWidth
+              value={passwordConfirmation}
+              onChange={onPasswordConfirmationChange}
+            />
+            <Box sx={{ textAlign: 'right', }}>
+              <Button type="submit" variant="contained" color="success">
+                Save
+              </Button>
+            </Box>
+          </Stack>
+        </Box>
+      </Paper>
+    </Container>
   )
 }

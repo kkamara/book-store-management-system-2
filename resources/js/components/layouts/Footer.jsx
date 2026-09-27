@@ -1,14 +1,19 @@
-import react from "react"
-
-import "./Footer.scss"
+import React from "react"
+import Box from '@mui/material/Box'
+import Link from '@mui/material/Link'
 
 export default function Footer() {
-  return <footer className="app-footer">
-    <a 
-      href="https://www.kelvinkamara.com"
-      className="btn btn-lg btn-default"
+  return (
+    <Box
+      component="footer"
+      sx={{ textAlign: 'center', my: 4, }}
     >
-      www.kelvinkamara.com
-    </a>
-  </footer>
+      <Link
+        href="https://www.kelvinkamara.com"
+        underline="hover"
+      >
+        www.kelvinkamara.com
+      </Link>
+    </Box>
+  )
 }

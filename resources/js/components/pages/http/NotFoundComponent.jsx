@@ -1,16 +1,15 @@
 import React from 'react'
 import { Helmet, } from "react-helmet"
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
 
 export default function NotFoundComponent() {
-  console.log(1)
   return (
-    <>
-      <div className='container not-found-container'>
-        <Helmet>
-            <title>404 Not Found | {import.meta.env.VITE_APP_NAME}</title>
-        </Helmet>
-        <h1><pre>404 | Not Found</pre></h1>
-      </div>
-    </>
+    <Container sx={{ textAlign: 'center', mt: 6, }}>
+      <Helmet>
+        <title>404 Not Found | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <Typography variant="h3">404 | Not Found</Typography>
+    </Container>
   )
 }

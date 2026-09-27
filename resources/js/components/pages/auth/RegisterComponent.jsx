@@ -2,9 +2,16 @@ import React, { useEffect, useState, } from 'react'
 import { useNavigate, } from 'react-router-dom'
 import { useDispatch, useSelector, } from 'react-redux'
 import { Helmet, } from "react-helmet"
+import Container from '@mui/material/Container'
+import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import CircularProgress from '@mui/material/CircularProgress'
 import { register, authorize, } from '../../../redux/actions/authActions'
 
-import "./RegisterComponent.scss"
 import ErrorComponent from '../../layouts/ErrorComponent'
 
 export default function RegisterComponent() {
@@ -63,75 +70,68 @@ export default function RegisterComponent() {
   }
 
   if (authState.loading) {
-    return <div className='container register-container text-center'>
-      <Helmet>
+    return (
+      <Container maxWidth="xs" sx={{ textAlign: 'center', }}>
+        <Helmet>
           <title>Register | {import.meta.env.VITE_APP_NAME}</title>
-      </Helmet>
-      <p>Loading...</p>
-    </div>
+        </Helmet>
+        <CircularProgress />
+      </Container>
+    )
   }
 
   return (
-    <>
-      <div className='container register-container'>
-        <Helmet>
-            <title>Register | {import.meta.env.VITE_APP_NAME}</title>
-        </Helmet>
-        <div className="col-md-4 offset-md-4">
-          <h3 className="lead">Register</h3>
-          <form method="post" onSubmit={onFormSubmit}>
-            <ErrorComponent error={error}/>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <input 
-                name="name"
-                className="form-control"
-                value={name}
-                onChange={onNameChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input 
-                name="email" 
-                className="form-control"
-                value={email}
-                onChange={onEmailChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input 
-                type="password"
-                name="password" 
-                className="form-control"
-                value={password}
-                onChange={onPasswordChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password_confirmation">Password Confirmation</label>
-              <input 
-                type="password"
-                name="password_confirmation" 
-                className="form-control"
-                value={passwordConfirmation}
-                onChange={onPasswordConfirmationChange}
-              />
-            </div>
-            <a 
-              href="/user/login" 
-              className="btn btn-primary"
-            >
-              Login
-            </a>
-            <input 
-              type="submit" 
-              className="btn btn-success" 
+    <Container maxWidth="xs">
+      <Helmet>
+        <title>Register | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <Paper sx={{ p: 4, }}>
+        <Typography variant="h5" sx={{ mb: 2, }}>Register</Typography>
+        <ErrorComponent error={error}/>
+        <Box component="form" onSubmit={onFormSubmit}>
+          <Stack spacing={2}>
+            <TextField
+              label="Name"
+              name="name"
+              fullWidth
+              value={name}
+              onChange={onNameChange}
             />
-          </form>
-        </div>
-      </div>
-    </>       
+            <TextField
+              label="Email"
+              name="email"
+              fullWidth
+              value={email}
+              onChange={onEmailChange}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              fullWidth
+              value={password}
+              onChange={onPasswordChange}
+            />
+            <TextField
+              label="Password Confirmation"
+              type="password"
+              name="password_confirmation"
+              fullWidth
+              value={passwordConfirmation}
+              onChange={onPasswordConfirmationChange}
+            />
+            <Stack direction="row" spacing={2} justifyContent="space-between">
+              <Button href="/user/login" variant="outlined">
+                Login
+              </Button>
+              <Button type="submit" variant="contained" color="success">
+                Register
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </Paper>
+    </Container>
   )
 }
+
