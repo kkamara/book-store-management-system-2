@@ -9,6 +9,13 @@ use App\Http\Controllers\V1\Web\ReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\V1\Web\UserController as WebUserController;
 use App\Http\Controllers\V1\API\UserController;
+use App\Http\Controllers\V1\Mobile\BookController as MobileBookController;
+use App\Http\Controllers\V1\Mobile\CartController as MobileCartController;
+use App\Http\Controllers\V1\Mobile\HomeController as MobileHomeController;
+use App\Http\Controllers\V1\Mobile\OrderBookController as MobileOrderBookController;
+use App\Http\Controllers\V1\Mobile\OrderController as MobileOrderController;
+use App\Http\Controllers\V1\Mobile\ReviewController as MobileReviewController;
+use App\Http\Controllers\V1\Mobile\UserController as MobileUserController;
 
 Route::prefix('v1')
     ->group(function () {
@@ -86,6 +93,82 @@ Route::prefix('v1')
             Route::get(
                 '/books/{slug}/reviews',
                 [ReviewController::class, 'getReviewByBook'],
+            );
+        });
+
+    Route::prefix('mobile')
+        ->group(function () {
+            Route::prefix('/user')->group(function () {
+                Route::post('/register', [MobileUserController::class, 'register']);
+                Route::post('/', [MobileUserController::class, 'login']);
+                Route::delete(
+                    '/logout',
+                    [MobileUserController::class, 'logout'],
+                )->middleware("auth:sanctum");
+                Route::get(
+                    '/authorize',
+                    [MobileUserController::class, 'authorizeUser'],
+                )->middleware("auth:sanctum");
+                Route::patch(
+                    '/account',
+                    [MobileUserController::class, 'account'],
+                )->middleware("auth:sanctum");
+            });
+            Route::get(
+                '/users',
+                [MobileUserController::class, 'getUsers'],
+            )->middleware("auth:sanctum");
+            Route::get(
+                '/',
+                [MobileHomeController::class, 'home'],
+            );
+            Route::get(
+                '/orders',
+                [MobileOrderController::class, 'index'],
+            )->middleware("auth:sanctum");
+            Route::get(
+                '/cart',
+                [MobileCartController::class, 'index'],
+            )->middleware("auth:sanctum");
+            Route::post(
+                '/cart/update',
+                [MobileCartController::class, 'update'],
+            )->middleware("auth:sanctum");
+            Route::post(
+                '/cart',
+                [MobileCartController::class, 'addToCart'],
+            )->middleware("auth:sanctum");
+            Route::post(
+                '/cart/remove',
+                [MobileCartController::class, 'removeFromCart'],
+            )->middleware("auth:sanctum");
+            Route::get(
+                '/books/search',
+                [MobileBookController::class, 'search'],
+            );
+            Route::get(
+                '/books/{slug}',
+                [MobileBookController::class, 'get'],
+            );
+            Route::get(
+                '/orders/{referenceNumber}',
+                [MobileOrderController::class, 'show'],
+            )->middleware("auth:sanctum");
+            Route::get(
+                '/books/search/editions',
+                [MobileBookController::class, 'editions'],
+            );
+            Route::get(
+                '/books/search/categories',
+                [MobileBookController::class, 'categories'],
+            );
+            Route::get(
+                '/orders/{referenceNumber}/products',
+                [MobileOrderBookController::class, 'index'],
+            )->middleware("auth:sanctum");
+            Route::get(
+                '/books/{slug}/reviews',
+                [MobileReviewController::class, 'getReviewByBook'],
             );
         });
 
