@@ -1,24 +1,26 @@
-import React from "react"
+import React, { useState, useEffect, } from "react"
+import Alert from '@mui/material/Alert'
+import Collapse from '@mui/material/Collapse'
 
 export default function ErrorComponent({ error, }) {
+  const [open, setOpen] = useState(true)
+
+  useEffect(() => {
+    setOpen(true)
+  }, [error])
+
   if (!error || "Token not set." === error) {
     return null
   }
 
   return (
-    <div>
-      <div
-        className="alert alert-warning alert-dismissible fade show"
-        role="alert"
+    <Collapse in={open} sx={{ mb: 2, }}>
+      <Alert
+        severity="warning"
+        onClose={() => setOpen(false)}
       >
         {error}
-        <button
-          type="button"
-          className="btn-close"
-          data-bs-dismiss="alert"
-          aria-label="Close"
-        ></button>
-      </div>
-    </div>
+      </Alert>
+    </Collapse>
   )
 }

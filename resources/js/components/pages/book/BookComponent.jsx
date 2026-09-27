@@ -1,17 +1,26 @@
-import React, { useEffect, useState, } from 'react'
+import React, { useEffect, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
 import { useParams, useNavigate, } from 'react-router'
 import moment from 'moment'
-import ReactPaginateModule from 'react-paginate'
 import { Helmet, } from "react-helmet"
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import Pagination from '@mui/material/Pagination'
+import CircularProgress from '@mui/material/CircularProgress'
+import Accordion from '@mui/material/Accordion'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { getBook, } from '../../../redux/actions/bookActions'
 import { getReviews, } from '../../../redux/actions/reviewsActions'
 import { authorize, } from '../../../redux/actions/authActions'
 import { addToCart, } from '../../../redux/actions/cartActions'
-
-import "./BookComponent.scss"
-
-const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
 export default function BookComponent() {
   const dispatch = useDispatch()
@@ -22,7 +31,6 @@ export default function BookComponent() {
   }))
   let { slug } = useParams()
   const navigate = useNavigate()
-  const [showReviews, setShowReviews] = useState("")
 
   useEffect(() => {
     dispatch(getBook(slug))
@@ -67,52 +75,38 @@ export default function BookComponent() {
     }
   }
 
-  const handlePageChange = ({ selected, }) => {
-    const newPage = selected + 1
-    if (newPage > state.reviews.data.meta.lastPage) {
+  const handlePageChange = (e, page) => {
+    if (page > state.reviews.data.meta.lastPage) {
       return
     }
-    dispatch(getReviews(slug, newPage))
-    setShowReviews("show")
+    dispatch(getReviews(slug, page))
   }
 
   const pagination = () => {
     if (!state.reviews.data) {
-        return null
+      return null
     }
 
-    return <div className="reviews-pagination">
-      <ReactPaginate
-        onPageChange={handlePageChange}
-        previousLabel="Previous"
-        nextLabel="Next"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        pageCount={state.reviews.data.meta.lastPage}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        containerClassName="pagination"
-        activeClassName="active"
-        forcePage={state.reviews.data.meta.currentPage - 1}
-      />
-    </div>
+    return (
+      <Stack alignItems="center" sx={{ my: 2, }}>
+        <Pagination
+          count={state.reviews.data.meta.lastPage}
+          page={state.reviews.data.meta.currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Stack>
+    )
   }
 
-  const paginationDetail = () => {
-    return <div className="text-center">
+  const paginationDetail = () => (
+    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', }}>
       <strong>page</strong> ({state.reviews.data.meta.currentPage}),
       &nbsp;<strong>page count</strong> ({state.reviews.data.meta.lastPage}),
       &nbsp;<strong>displayed items</strong> ({state.reviews.data.data.length}),
       &nbsp;<strong>items</strong> ({state.reviews.data.meta.total})
-    </div>
-  }
+    </Typography>
+  )
 
   const renderReviews = () => {
     if (!state.reviews.data) {
@@ -121,15 +115,23 @@ export default function BookComponent() {
     return (
       <>
         {paginationDetail()}
-        {state.reviews.data.data.map((review, index) => (
-          <div key={index} className="card card-body review-card-body">
-              <p>Rated <span className="rating">{review.rating}</span></p>
-              <p className="review-text">{review.text}</p>
-              <p className="float-right">
-                Submitted {parseDate(review.createdAt)} by {review.user.name}
-              </p>
-          </div>
-        ))}
+        <Stack spacing={1.5} sx={{ mt: 2, }}>
+          {state.reviews.data.data.map((review, index) => (
+            <Card key={index} variant="outlined">
+              <CardContent>
+                <Typography sx={{ fontWeight: 700, textDecoration: 'underline', }}>
+                  Rated {review.rating}
+                </Typography>
+                <Typography sx={{ whiteSpace: 'pre-line', my: 1, }}>
+                  {review.text}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'right', }}>
+                  Submitted {parseDate(review.createdAt)} by {review.user.name}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Stack>
         {paginationDetail()}
       </>
     )
@@ -138,92 +140,73 @@ export default function BookComponent() {
   const parseDate = date => moment(date).format('YYYY-MM-DD hh:mm')
 
   if (
-    !state.auth.loading &&
-    typeof state.auth.data === 'object' &&
-    null !== state.auth.data
-  ) {
-    console.log('authenticated', state.auth.data)
-  }
-  if (
-    !state.book.loading &&
-    typeof state.book.data === 'object' &&
-    null !== state.book.data
-  ) {
-    console.log('book', state.book.data)
-  }
-  if (
     state.auth.loading ||
     state.book.loading ||
     state.reviews.loading
   ) {
-    return <div className="container book-container text-center">
-      <Helmet>
-          <title>{import.meta.env.VITE_APP_NAME}</title>
-      </Helmet>
-      <p>Loading...</p>
-    </div>
-  }
-  
-  return (
-    <>
-      <div className='container book-container'>
+    return (
+      <Container sx={{ textAlign: 'center', }}>
         <Helmet>
-            <title>{state.book.data.data.name} | {import.meta.env.VITE_APP_NAME}</title>
+          <title>{import.meta.env.VITE_APP_NAME}</title>
         </Helmet>
-        <h1>{state.book.data.data.name}</h1>
-        <img
-          src={state.book.data.data.jpgImageURL}
-          alt={state.book.data.data.name}
-          className="book-cover"
-        />
-        <span className="card-span categories-span">
-          Categories: 
-          {state.book.data.data.categories.map((category, index) => {
-            if ((index + 1) === state.book.data.data.categories.length) {
-              return category.name
-            } else {
-              return category.name+", "
-            }
-          })}
-        </span>
-        <div className="row">
-          <div className="col-md-4 offset-md-4 book-detail">
-            <div className="book-detail-info">
-              <span className="card-span">Publisher: {state.book.data.data.publisher}</span>
-              <span className="card-span">Published {state.book.data.data.published}</span>
-              <span className="card-span">Binding: {state.book.data.data.binding}</span>
-              <span className="card-span">Edition: {state.book.data.data.edition}</span>
-            </div>
-            <span className="book-cost">£{state.book.data.data.cost}</span> 
-            <button
-              className="btn btn-primary add-to-cart"
-              onClick={handleAddToCart}
-            >
+        <CircularProgress />
+      </Container>
+    )
+  }
+
+  return (
+    <Container sx={{ mb: 4, }}>
+      <Helmet>
+        <title>{state.book.data.data.name} | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <Typography variant="h4" sx={{ mb: 2, }}>{state.book.data.data.name}</Typography>
+      <Box
+        component="img"
+        src={state.book.data.data.jpgImageURL}
+        alt={state.book.data.data.name}
+        sx={{ maxWidth: 350, borderRadius: 4, display: 'block', mx: 'auto', }}
+      />
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, justifyContent: 'center', mt: 2, }}>
+        {state.book.data.data.categories.map((category, index) => (
+          <Chip key={index} label={category.name} size="small" />
+        ))}
+      </Box>
+      <Card sx={{ maxWidth: 400, mx: 'auto', mt: 3, }}>
+        <CardContent sx={{ textAlign: 'left', }}>
+          <Stack spacing={0.5}>
+            <Typography variant="body2">Publisher: {state.book.data.data.publisher}</Typography>
+            <Typography variant="body2">Published {state.book.data.data.published}</Typography>
+            <Typography variant="body2">Binding: {state.book.data.data.binding}</Typography>
+            <Typography variant="body2">Edition: {state.book.data.data.edition}</Typography>
+          </Stack>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mt: 2, }}>
+            <Typography variant="h6" fontWeight={700}>£{state.book.data.data.cost}</Typography>
+            <Button variant="contained" onClick={handleAddToCart}>
               Add to cart
-            </button>
-          </div>
-        </div>
-        <div className="col-md-12 reviews-container">
-          <p className="d-inline-flex gap-1">
-            <button className="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#descriptionCollapse" aria-expanded="false" aria-controls="descriptionCollapse">
-              Description
-            </button>
-            <button className="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#reviewCollapse" aria-expanded="false" aria-controls="reviewCollapse">
-              {reviewTitle()}
-            </button>
-          </p>
-          <div className="collapse description-collapse" id="descriptionCollapse">
-            <div className="card card-body book-description">
-              {state.book.data.data.description}
-            </div>
-          </div>
-          <div className={`collapse book-collapse ${showReviews}`} id="reviewCollapse">
+            </Button>
+          </Stack>
+        </CardContent>
+      </Card>
+      <Box sx={{ mt: 4, textAlign: 'left', }}>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>Description</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ whiteSpace: 'pre-line', }}>
+            {state.book.data.data.description}
+          </AccordionDetails>
+        </Accordion>
+        <Accordion>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>{reviewTitle()}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
             {pagination()}
             {renderReviews()}
             {pagination()}
-          </div>
-        </div>
-      </div>
-    </>
+          </AccordionDetails>
+        </Accordion>
+      </Box>
+    </Container>
   )
 }

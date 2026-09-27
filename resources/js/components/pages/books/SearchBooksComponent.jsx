@@ -1,18 +1,28 @@
 import React, { useEffect, useState, } from 'react'
+import { Link, } from 'react-router-dom'
 import ErrorComponent from '../../layouts/ErrorComponent'
 import { useDispatch, useSelector, } from 'react-redux'
-import ReactPaginateModule from 'react-paginate'
-import moment from 'moment'
 import { Helmet, } from "react-helmet"
-import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome"
-import { faX, } from "@fortawesome/free-solid-svg-icons"
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import Paper from '@mui/material/Paper'
+import Card from '@mui/material/Card'
+import CardMedia from '@mui/material/CardMedia'
+import CardContent from '@mui/material/CardContent'
+import CardActions from '@mui/material/CardActions'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import Pagination from '@mui/material/Pagination'
+import CircularProgress from '@mui/material/CircularProgress'
+import TextField from '@mui/material/TextField'
+import MenuItem from '@mui/material/MenuItem'
+import IconButton from '@mui/material/IconButton'
+import ClearIcon from '@mui/icons-material/Clear'
 import { getEditions, } from '../../../redux/actions/editionsActions'
 import { getCategories, } from '../../../redux/actions/categoriesActions'
 import { getSearchBooks, } from '../../../redux/actions/searchBooksActions'
-
-import "./SearchBooksComponent.scss"
-
-const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
 export default function SearchBooksComponent() {
   const dispatch = useDispatch()
@@ -22,11 +32,10 @@ export default function SearchBooksComponent() {
     categories: state.categories,
   }))
   const [query, setQuery] = useState("")
-  const [page, setPage] = useState(1)
   const [editions, setEditions] = useState(null)
   const [categories, setCategories] = useState(null)
-  const [edition, setEdition] = useState(null)
-  const [category, setCategory] = useState(null)
+  const [edition, setEdition] = useState("")
+  const [category, setCategory] = useState("")
   const [orderById, setOrderById] = useState("desc")
   const [error, setError] = useState("")
 
@@ -68,9 +77,8 @@ export default function SearchBooksComponent() {
     }
   }, [state.categories])
 
-  const handlePageChange = ({ selected, }) => {
-    const newPage = selected + 1
-    if (newPage > state.searchBooks.data.meta.lastPage) {
+  const handlePageChange = (e, page) => {
+    if (page > state.searchBooks.data.meta.lastPage) {
       return
     }
     const params = { orderById, }
@@ -83,16 +91,14 @@ export default function SearchBooksComponent() {
     if (query) {
       params.query = query
     }
-    dispatch(getSearchBooks(newPage, params))
-    setPage(newPage)
+    dispatch(getSearchBooks(page, params))
   }
 
   const handleClearSearchInput = () => {
     setQuery("")
-    setEdition(null)
-    setCategory(null)
+    setEdition("")
+    setCategory("")
     setOrderById("desc")
-    setPage(1)
     dispatch(getSearchBooks(1))
   }
 
@@ -110,7 +116,6 @@ export default function SearchBooksComponent() {
       params.query = query
     }
     dispatch(getSearchBooks(1, params))
-    setPage(1)
   }
 
   const handleQueryChange = e => {
@@ -129,45 +134,31 @@ export default function SearchBooksComponent() {
     setOrderById(e.target.value)
   }
 
-  const parseDate = date => moment(date).format('YYYY-MM-DD hh:mm')
-
   const pagination = () => {
     if (!state.searchBooks.data) {
-        return null
+      return null
     }
 
-    return <div className="search-books-pagination">
-      <ReactPaginate
-        onPageChange={handlePageChange}
-        previousLabel="Previous"
-        nextLabel="Next"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        pageCount={state.searchBooks.data.meta.lastPage}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        containerClassName="pagination"
-        activeClassName="active"
-        forcePage={state.searchBooks.data.meta.currentPage - 1}
-      />
-    </div>
+    return (
+      <Stack alignItems="center" sx={{ my: 3, }}>
+        <Pagination
+          count={state.searchBooks.data.meta.lastPage}
+          page={state.searchBooks.data.meta.currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Stack>
+    )
   }
 
-  const paginationDetail = () => {
-    return <>
+  const paginationDetail = () => (
+    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mb: 2, }}>
       <strong>page</strong> ({state.searchBooks.data.meta.currentPage}),
       &nbsp;<strong>page count</strong> ({state.searchBooks.data.meta.lastPage}),
       &nbsp;<strong>displayed items</strong> ({state.searchBooks.data.data.length}),
       &nbsp;<strong>items</strong> ({state.searchBooks.data.meta.total})
-    </>
-  }
+    </Typography>
+  )
 
   const renderList = () => {
     if (!state.searchBooks.data) {
@@ -176,173 +167,151 @@ export default function SearchBooksComponent() {
     return (
       <>
         {paginationDetail()}
-        <div className="col-md-12">
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 2,
+          }}
+        >
           {state.searchBooks.data.data.map((book, index) => (
-            <div key={index} className="card search-books-card">
-              <a href={`/books/${book.slug}`}>
-                <img src={book.jpgImageURL} className="card-img-top" alt="..." />
-              </a>
-              <div className="card-body">
-                <h5 className="card-title search-book-card-title">{book.name}</h5>
-                <p className="card-text">
-                  <span className="card-span">Publisher: {book.publisher}</span>
-                  <span className="card-span">Published {book.published}</span>
-                  <span className="card-span book-cost">£{book.cost}</span>
-                  <span className="card-span">Binding: {book.binding}</span>
-                  <span className="card-span">Edition: {book.edition}</span>
-                  <span className="card-span categories-span">
-                    Categories: 
-                    {book.categories.map((category, index) => {
-                      if ((index + 1) === book.categories.length) {
-                        return category.name
-                      } else {
-                        return category.name+", "
-                      }
-                    })}
-                  </span>
-                </p>
-                <a href={`/books/${book.slug}`} className="btn btn-primary">
+            <Card key={index} sx={{ width: 288, }}>
+              <Link to={`/books/${book.slug}`}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={book.jpgImageURL}
+                  alt={book.name}
+                  sx={{ objectFit: 'contain', pt: 1, }}
+                />
+              </Link>
+              <CardContent>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    overflow: 'hidden',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 1,
+                    WebkitBoxOrient: 'vertical',
+                  }}
+                >
+                  {book.name}
+                </Typography>
+                <Stack spacing={0.5} sx={{ fontSize: 12, mt: 1, }}>
+                  <Typography variant="body2">Publisher: {book.publisher}</Typography>
+                  <Typography variant="body2">Published {book.published}</Typography>
+                  <Typography variant="subtitle1" fontWeight={700}>£{book.cost}</Typography>
+                  <Typography variant="body2">Binding: {book.binding}</Typography>
+                  <Typography variant="body2">Edition: {book.edition}</Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5, }}>
+                    {book.categories.map((category, categoryIndex) => (
+                      <Chip key={categoryIndex} label={category.name} size="small" />
+                    ))}
+                  </Box>
+                </Stack>
+              </CardContent>
+              <CardActions>
+                <Button component={Link} to={`/books/${book.slug}`} variant="contained" fullWidth>
                   View Book
-                </a>
-              </div>
-            </div>
+                </Button>
+              </CardActions>
+            </Card>
           ))}
-        </div>
+        </Box>
         {paginationDetail()}
       </>
     )
   }
 
   if (
-    !state.searchBooks.loading &&
-    typeof state.searchBooks.data === 'object' &&
-    null !== state.searchBooks.data
-  ) {
-    console.log('searchBooks', state.searchBooks.data)
-  }
-  if (
-    !state.editions.loading &&
-    typeof state.editions.data === 'object' &&
-    null !== state.editions.data
-  ) {
-    console.log('editions', state.editions.data)
-  }
-  if (
-    !state.categories.loading &&
-    typeof state.categories.data === 'object' &&
-    null !== state.categories.data
-  ) {
-    console.log('categories', state.categories.data)
-  }
-  if (
     state.searchBooks.loading ||
     state.editions.loading ||
     state.categories.loading
   ) {
-    return <div className="container search-books-container text-center">
-      <Helmet>
+    return (
+      <Container sx={{ textAlign: 'center', }}>
+        <Helmet>
           <title>Search Books | {import.meta.env.VITE_APP_NAME}</title>
-      </Helmet>
-      <p>Loading...</p>
-    </div>
+        </Helmet>
+        <CircularProgress />
+      </Container>
+    )
   }
 
   return (
-    <>
-      <div className='container search-books-container'>
-        <Helmet>
-            <title>Search Books | {import.meta.env.VITE_APP_NAME}</title>
-        </Helmet>
-        <form className="row search-books-form" onSubmit={handleSearchFormSubmit}>
-          <ErrorComponent error={error}/>
-          <div className="col-md-4">
-            <div className="form-group query-search-books-form-group">
-              <label htmlFor="query">Search:</label>
-              <input
-                type="text"
-                name="query"
-                className="form-control query-input"
-                value={query}
-                onChange={handleQueryChange}
-              />
-            </div>            
-          </div>
-          <div className="col-md-4">
-            <div className="form-group">
-              <label htmlFor="edition">Select edition:</label>
-              <select
-                name="edition"
-                id="edition"
-                className="form-control"
-                value={edition}
-                onChange={handleEditionChange}
-              >
-                <option value=""></option>
-                {editions && editions.map((edition, index) => (
-                  <option
-                    key={index}
-                    value={edition.filterKey}
-                  >
-                    {edition.name}
-                  </option>
-                ))}
-              </select>
-            </div>          
-          </div>
-          <div className="col-md-4 category-grid">
-            <div className="form-group">
-              <label htmlFor="category">Select category:</label>
-              <select
-                name="category"
-                id="category"
-                className="form-control"
-                value={category}
-                onChange={handleCategoryChange}
-              >
-                <option value=""></option>
-                {categories && categories.map((category, index) => (
-                  <option
-                    key={index}
-                    value={category.name}
-                  >
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="orderById">Order by:</label>
-              <select
-                name="orderById"
-                id="orderById"
-                className="form-control"
-                value={orderById}
-                onChange={handleOrderByIdChange}
-              >
-                <option value="desc">ID descending</option>
-                <option value="asc">ID ascending</option>
-              </select>
-            </div>
-            <div className="form-group search-orders-button-container">              
-              <div
-                className="btn btn-default clear-orders-search-form"
-                onClick={handleClearSearchInput}
-              >
-                <FontAwesomeIcon icon={faX} />
-              </div>
-              <input
-                className="btn btn-primary"
-                type="submit"
-                value="Submit Search"
-              />
-            </div>            
-          </div>
-        </form>
-        <br />
-        {pagination()}
-        {renderList()}
-        {pagination()}
-      </div>
-    </>
+    <Container sx={{ mb: 4, }}>
+      <Helmet>
+        <title>Search Books | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <Paper
+        component="form"
+        onSubmit={handleSearchFormSubmit}
+        sx={{ p: 3, mb: 3, textAlign: 'left', }}
+      >
+        <ErrorComponent error={error}/>
+        <Stack direction={{ xs: 'column', md: 'row', }} spacing={2}>
+          <TextField
+            label="Search"
+            name="query"
+            fullWidth
+            value={query}
+            onChange={handleQueryChange}
+          />
+          <TextField
+            select
+            label="Select edition"
+            name="edition"
+            fullWidth
+            value={edition}
+            onChange={handleEditionChange}
+          >
+            <MenuItem value="">&nbsp;</MenuItem>
+            {editions && editions.map((edition, index) => (
+              <MenuItem key={index} value={edition.filterKey}>
+                {edition.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            label="Select category"
+            name="category"
+            fullWidth
+            value={category}
+            onChange={handleCategoryChange}
+          >
+            <MenuItem value="">&nbsp;</MenuItem>
+            {categories && categories.map((category, index) => (
+              <MenuItem key={index} value={category.name}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            label="Order by"
+            name="orderById"
+            fullWidth
+            value={orderById}
+            onChange={handleOrderByIdChange}
+          >
+            <MenuItem value="desc">ID descending</MenuItem>
+            <MenuItem value="asc">ID ascending</MenuItem>
+          </TextField>
+        </Stack>
+        <Stack direction="row" spacing={1} justifyContent="flex-end" sx={{ mt: 2, }}>
+          <IconButton onClick={handleClearSearchInput}>
+            <ClearIcon />
+          </IconButton>
+          <Button type="submit" variant="contained">
+            Submit Search
+          </Button>
+        </Stack>
+      </Paper>
+      {pagination()}
+      {renderList()}
+      {pagination()}
+    </Container>
   )
 }

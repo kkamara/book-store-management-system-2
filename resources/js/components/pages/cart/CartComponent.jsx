@@ -2,12 +2,20 @@ import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
 import { useNavigate, } from "react-router"
 import { Helmet, } from "react-helmet"
-import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome"
-import { faMinus, faPlus, } from "@fortawesome/free-solid-svg-icons"
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import IconButton from '@mui/material/IconButton'
+import CircularProgress from '@mui/material/CircularProgress'
+import Paper from '@mui/material/Paper'
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
 import { authorize, } from '../../../redux/actions/authActions'
 import { addToCart, removeFromCart, } from '../../../redux/actions/cartActions'
-
-import "./CartComponent.scss"
 
 export default function CartComponent() {
   const navigate = useNavigate()
@@ -62,100 +70,77 @@ export default function CartComponent() {
     if (!state.cart.data) {
       return null
     }
-    
+
     return (
-      <>
-        <div className="col-md-12">
-          {state.cart.data.data.map((cartItem, index) => (
-            <div class="card cart-card">
-              <div class="card-body">
-                <h5 class="card-title">{cartItem.book.name}</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary"></h6>
-                <p class="card-text">
-                  Cost: £{cartItem.cost}
-                </p>
-                <div className="cart-icons-container">
-                  <div
-                    className="btn btn-default"
-                    onClick={() => { handleRemoveFromCart(cartItem.book.id) }}
+      <Stack spacing={2}>
+        {state.cart.data.data.map((cartItem, index) => (
+          <Card key={index}>
+            <CardContent sx={{ textAlign: 'left', }}>
+              <Typography variant="h6">{cartItem.book.name}</Typography>
+              <Typography variant="body2" sx={{ mb: 2, }}>
+                Cost: £{cartItem.cost}
+              </Typography>
+              <Stack direction="row" alignItems="center" justifyContent="space-between">
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleRemoveFromCart(cartItem.book.id)}
                   >
-                    <FontAwesomeIcon icon={faMinus} />
-                  </div>
-                  <div className="btn btn-default">
-                    {cartItem.quantity}
-                  </div>
-                  <div
-                    className="btn btn-default"
-                    onClick={() => { handleAddToCart(cartItem.book.id) }}
+                    <RemoveIcon fontSize="small" />
+                  </IconButton>
+                  <Typography>{cartItem.quantity}</Typography>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleAddToCart(cartItem.book.id)}
                   >
-                    <FontAwesomeIcon icon={faPlus} />
-                  </div>
-                </div>
-                <div className="cart-link-container">
-                  <a
-                    href={`/books/${cartItem.book.slug}`}
-                    class="card-link order-link btn btn-primary"
-                  >
-                    View Book
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </>
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                </Stack>
+                <Button
+                  href={`/books/${cartItem.book.slug}`}
+                  variant="contained"
+                >
+                  View Book
+                </Button>
+              </Stack>
+            </CardContent>
+          </Card>
+        ))}
+      </Stack>
     )
   }
 
-  if (
-    !state.auth.loading &&
-    typeof state.auth.data === 'object' &&
-    null !== state.auth.data
-  ) {
-    console.log('auth', state.auth.data)
-  }
   if (loading) {
-    return <div className="container cart-container text-center">
-      <Helmet>
+    return (
+      <Container sx={{ textAlign: 'center', }}>
+        <Helmet>
           <title>Cart | {import.meta.env.VITE_APP_NAME}</title>
-      </Helmet>
-      <p>Loading...</p>
-    </div>
+        </Helmet>
+        <CircularProgress />
+      </Container>
+    )
   }
 
   return (
-    <>
-      <div className='container cart-container'>
-        <Helmet>
-            <title>Cart | {import.meta.env.VITE_APP_NAME}</title>
-        </Helmet>
-        <div className="header-container">
-          <h1>Cart</h1>
-        </div>
-        <div className="row">
-          <div className="col-md-9">
-            {renderList()}
-          </div>
-          <div className="col-md-3">
-            <div className="checkout-detail">
-              <div>
-                Delivery cost: £3.99
-              </div>
-              <div>
-                Total cost: £{getCost()}
-              </div>
-            </div>
-            <div className="cart-checkout-icons-container">
-              <a
-                className="btn btn-success"
-                href="#"
-              >
-                Checkout
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    <Container sx={{ mb: 4, }}>
+      <Helmet>
+        <title>Cart | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <Typography variant="h4" sx={{ mb: 3, textAlign: 'left', }}>Cart</Typography>
+      <Stack direction={{ xs: 'column', md: 'row', }} spacing={3}>
+        <Box sx={{ flex: 3, }}>
+          {renderList()}
+        </Box>
+        <Box sx={{ flex: 1, }}>
+          <Paper sx={{ p: 2, textAlign: 'left', }}>
+            <Typography>Delivery cost: £3.99</Typography>
+            <Typography sx={{ mb: 2, }}>Total cost: £{getCost()}</Typography>
+            <Button variant="contained" color="success" fullWidth href="#">
+              Checkout
+            </Button>
+          </Paper>
+        </Box>
+      </Stack>
+    </Container>
   )
 }

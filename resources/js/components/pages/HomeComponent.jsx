@@ -1,14 +1,22 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
-import ReactPaginateModule from 'react-paginate'
-import moment from 'moment'
+import { Link, } from 'react-router-dom'
 import { Helmet, } from "react-helmet"
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardMedia from '@mui/material/CardMedia'
+import CardContent from '@mui/material/CardContent'
+import CardActions from '@mui/material/CardActions'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import Pagination from '@mui/material/Pagination'
+import CircularProgress from '@mui/material/CircularProgress'
 import { getHome, } from '../../redux/actions/homeActions'
 
-import "./HomeComponent.scss"
 import ErrorComponent from '../layouts/ErrorComponent'
-
-const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
 
 export default function HomeComponent() {
   const dispatch = useDispatch()
@@ -27,53 +35,38 @@ export default function HomeComponent() {
     }
   }, [state.home])
 
-  const handlePageChange = ({ selected, }) => {
-    const newPage = selected + 1
-    if (newPage > state.home.data.meta.lastPage) {
+  const handlePageChange = (e, page) => {
+    if (page > state.home.data.meta.lastPage) {
       return
     }
-    dispatch(getHome(newPage))
+    dispatch(getHome(page))
   }
-
-  const parseDate = date => moment(date).format('YYYY-MM-DD hh:mm')
 
   const pagination = () => {
     if (!state.home.data) {
-        return null
+      return null
     }
 
-    return <div className="book-pagination">
-      <ReactPaginate
-        onPageChange={handlePageChange}
-        previousLabel="Previous"
-        nextLabel="Next"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        pageCount={state.home.data.meta.lastPage}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        containerClassName="pagination"
-        activeClassName="active"
-        forcePage={state.home.data.meta.currentPage - 1}
-      />
-    </div>
+    return (
+      <Stack alignItems="center" sx={{ my: 3, }}>
+        <Pagination
+          count={state.home.data.meta.lastPage}
+          page={state.home.data.meta.currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Stack>
+    )
   }
 
-  const paginationDetail = () => {
-    return <>
+  const paginationDetail = () => (
+    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mb: 2, }}>
       <strong>page</strong> ({state.home.data.meta.currentPage}),
       &nbsp;<strong>page count</strong> ({state.home.data.meta.lastPage}),
       &nbsp;<strong>displayed items</strong> ({state.home.data.data.length}),
       &nbsp;<strong>items</strong> ({state.home.data.meta.total})
-    </>
-  }
+    </Typography>
+  )
 
   const renderList = () => {
     if (!state.home.data) {
@@ -82,72 +75,83 @@ export default function HomeComponent() {
     return (
       <>
         {paginationDetail()}
-        <div className="col-md-12 home-cards-wrapper">
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 2,
+          }}
+        >
           {state.home.data.data.map((book, index) => (
-            <div key={index} className="card home-card">
-              <a href={`/books/${book.slug}`}>
-                <img src={book.jpgImageURL} className="card-img-top" alt="..." />
-              </a>
-              <div className="card-body">
-                <h5 className="card-title book-card-title">{book.name}</h5>
-                <p className="card-text">
-                  <span className="card-span">Publisher: {book.publisher}</span>
-                  <span className="card-span">Published {book.published}</span>
-                  <span className="card-span book-cost">£{book.cost}</span>
-                  <span className="card-span">Binding: {book.binding}</span>
-                  <span className="card-span">Edition: {book.edition}</span>
-                  <span className="card-span categories-span">
-                    Categories: 
-                    {book.categories.map((category, index) => {
-                      if ((index + 1) === book.categories.length) {
-                        return category.name
-                      } else {
-                        return category.name+", "
-                      }
-                    })}
-                  </span>
-                </p>
-                <a href={`/books/${book.slug}`} className="btn btn-primary">
+            <Card key={index} sx={{ width: 288, }}>
+              <Link to={`/books/${book.slug}`}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={book.jpgImageURL}
+                  alt={book.name}
+                  sx={{ objectFit: 'contain', pt: 1, }}
+                />
+              </Link>
+              <CardContent>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    overflow: 'hidden',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 1,
+                    WebkitBoxOrient: 'vertical',
+                  }}
+                >
+                  {book.name}
+                </Typography>
+                <Stack spacing={0.5} sx={{ fontSize: 12, mt: 1, }}>
+                  <Typography variant="body2">Publisher: {book.publisher}</Typography>
+                  <Typography variant="body2">Published {book.published}</Typography>
+                  <Typography variant="subtitle1" fontWeight={700}>£{book.cost}</Typography>
+                  <Typography variant="body2">Binding: {book.binding}</Typography>
+                  <Typography variant="body2">Edition: {book.edition}</Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 0.5, }}>
+                    {book.categories.map((category, categoryIndex) => (
+                      <Chip key={categoryIndex} label={category.name} size="small" />
+                    ))}
+                  </Box>
+                </Stack>
+              </CardContent>
+              <CardActions>
+                <Button component={Link} to={`/books/${book.slug}`} variant="contained" fullWidth>
                   View Book
-                </a>
-              </div>
-            </div>
+                </Button>
+              </CardActions>
+            </Card>
           ))}
-        </div>
+        </Box>
         {paginationDetail()}
       </>
     )
   }
 
-  if (
-    !state.home.loading &&
-    typeof state.home.data === 'object' &&
-    null !== state.home.data
-  ) {
-    console.log('home', state.home.data)
-  }
   if (state.home.loading) {
-    return <div className="container home-container text-center">
-      <Helmet>
+    return (
+      <Container sx={{ textAlign: 'center', }}>
+        <Helmet>
           <title>Home | {import.meta.env.VITE_APP_NAME}</title>
-      </Helmet>
-      <p>Loading...</p>
-    </div>
+        </Helmet>
+        <CircularProgress />
+      </Container>
+    )
   }
 
   return (
-    <>
-      <div className='container home-container'>
-        <Helmet>
-            <title>Home | {import.meta.env.VITE_APP_NAME}</title>
-        </Helmet>
-        <div className="col-md-12">
-          <ErrorComponent error={error} />
-        </div>
-        {pagination()}
-        {renderList()}
-        {pagination()}
-      </div>
-    </>
+    <Container sx={{ mb: 4, }}>
+      <Helmet>
+        <title>Home | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <ErrorComponent error={error} />
+      {pagination()}
+      {renderList()}
+      {pagination()}
+    </Container>
   )
 }

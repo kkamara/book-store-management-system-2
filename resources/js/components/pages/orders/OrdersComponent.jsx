@@ -1,16 +1,37 @@
 import React, { useEffect, useState, } from 'react'
 import { useDispatch, useSelector, } from 'react-redux'
-import ReactPaginateModule from 'react-paginate'
 import moment from 'moment'
 import { Helmet, } from "react-helmet"
-import { FontAwesomeIcon, } from "@fortawesome/react-fontawesome"
-import { faX, } from "@fortawesome/free-solid-svg-icons"
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardActions from '@mui/material/CardActions'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import Pagination from '@mui/material/Pagination'
+import CircularProgress from '@mui/material/CircularProgress'
+import TextField from '@mui/material/TextField'
+import IconButton from '@mui/material/IconButton'
+import ClearIcon from '@mui/icons-material/Clear'
 import { getOrders, } from '../../../redux/actions/ordersActions'
 
-import "./OrdersComponent.scss"
 import ErrorComponent from '../../layouts/ErrorComponent'
 
-const ReactPaginate = ReactPaginateModule?.default ?? ReactPaginateModule
+const orderStatusColor = status => {
+  switch (status) {
+    case "PROCESSING":
+    case "PROCESSED":
+    case "DELIVERING":
+      return "info"
+    case "DELIVERED":
+      return "success"
+    default:
+      return "warning"
+  }
+}
 
 export default function OrdersComponent() {
   const dispatch = useDispatch()
@@ -19,7 +40,6 @@ export default function OrdersComponent() {
     orders: state.orders,
   }))
   const [query, setQuery] = useState("")
-  const [page, setPage] = useState(1)
   const [error, setError] = useState("")
 
   useEffect(() => {
@@ -32,13 +52,11 @@ export default function OrdersComponent() {
     }
   }, [state.orders])
 
-  const handlePageChange = ({ selected, }) => {
-    const newPage = selected + 1
-    if (newPage > state.orders.data.meta.lastPage) {
+  const handlePageChange = (e, page) => {
+    if (page > state.orders.data.meta.lastPage) {
       return
     }
-    dispatch(getOrders(newPage))
-    setPage(newPage)
+    dispatch(getOrders(page, query))
   }
 
   const handleQueryChange = e => {
@@ -52,7 +70,6 @@ export default function OrdersComponent() {
       return
     }
     dispatch(getOrders(1, query))
-    setPage(1)
   }
 
   const handleClearSearchInput = () => {
@@ -60,81 +77,36 @@ export default function OrdersComponent() {
       return
     }
     setQuery("")
-    setPage(1)
     dispatch(getOrders(1, ""))
-  }
-
-  const getOrderStatusBadge = status => {
-    let result = null
-    switch(status) {
-      case "PROCESSING":
-        result = <div className="btn btn-info">
-          {status}
-        </div>
-        break
-      case "PROCESSED":
-        result = <div className="btn btn-info">
-          {status}
-        </div>
-        break
-      case "DELIVERING":
-        result = <div className="btn btn-info">
-          {status}
-        </div>
-        break
-      case "DELIVERED":
-        result = <div className="btn btn-success">
-          {status}
-        </div>
-        break
-      default:
-        result = <div className="btn btn-warning">
-          {status}
-        </div>
-        break
-    }
-    return result
   }
 
   const parseDate = date => moment(date).format('YYYY-MM-DD hh:mm')
 
   const pagination = () => {
     if (!state.orders.data) {
-        return null
+      return null
     }
 
-    return <div className="orders-pagination">
-      <ReactPaginate
-        onPageChange={handlePageChange}
-        previousLabel="Previous"
-        nextLabel="Next"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        pageCount={state.orders.data.meta.lastPage}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        containerClassName="pagination"
-        activeClassName="active"
-        forcePage={state.orders.data.meta.currentPage - 1}
-      />
-    </div>
+    return (
+      <Stack alignItems="center" sx={{ my: 3, }}>
+        <Pagination
+          count={state.orders.data.meta.lastPage}
+          page={state.orders.data.meta.currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Stack>
+    )
   }
 
-  const paginationDetail = () => {
-    return <>
+  const paginationDetail = () => (
+    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mb: 2, }}>
       <strong>page</strong> ({state.orders.data.meta.currentPage}),
       &nbsp;<strong>page count</strong> ({state.orders.data.meta.lastPage}),
       &nbsp;<strong>displayed items</strong> ({state.orders.data.data.length}),
       &nbsp;<strong>items</strong> ({state.orders.data.meta.total})
-    </>
-  }
+    </Typography>
+  )
 
   const renderList = () => {
     if (!state.orders.data) {
@@ -143,94 +115,76 @@ export default function OrdersComponent() {
     return (
       <>
         {paginationDetail()}
-        <div className="col-md-12">
+        <Stack spacing={2}>
           {state.orders.data.data.map((order, index) => (
-            <div class="card orders-card">
-              <div class="card-body">
-                <h5 class="card-title">Order {getOrderStatusBadge(order.status)}, Reference: {order.referenceNumber}</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Ordered at {parseDate(order.createdAt)}</h6>
-                <p class="card-text">
-                  Cost: £{order.cost}
-                </p>
-                <p class="card-text">
-                  Delivery cost: £{order.deliveryCost}
-                </p>
-                <p class="card-text">
-                  Total cost: £{order.totalCost}
-                </p>
-                <div className="order-link-container">
-                  <a
-                    href={`/orders/${order.referenceNumber}`}
-                    class="card-link order-link btn btn-primary"
-                  >
-                    View Order
-                  </a>
-                </div>
-              </div>
-            </div>
+            <Card key={index}>
+              <CardContent sx={{ textAlign: 'left', }}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography variant="h6">Order, Reference: {order.referenceNumber}</Typography>
+                  <Chip size="small" label={order.status} color={orderStatusColor(order.status)} />
+                </Stack>
+                <Typography variant="body2" color="text.secondary">
+                  Ordered at {parseDate(order.createdAt)}
+                </Typography>
+                <Typography variant="body2">Cost: £{order.cost}</Typography>
+                <Typography variant="body2">Delivery cost: £{order.deliveryCost}</Typography>
+                <Typography variant="body2">Total cost: £{order.totalCost}</Typography>
+              </CardContent>
+              <CardActions sx={{ justifyContent: 'flex-end', }}>
+                <Button href={`/orders/${order.referenceNumber}`} variant="contained">
+                  View Order
+                </Button>
+              </CardActions>
+            </Card>
           ))}
-        </div>
+        </Stack>
         {paginationDetail()}
       </>
     )
   }
 
-  if (
-    !state.auth.loading &&
-    typeof state.auth.data === 'object' &&
-    null !== state.auth.data
-  ) {
-    console.log('auth', state.auth.data)
-  }
   if (state.auth.loading || state.orders.loading) {
-    return <div className="container orders-container text-center">
-      <Helmet>
+    return (
+      <Container sx={{ textAlign: 'center', }}>
+        <Helmet>
           <title>My Orders | {import.meta.env.VITE_APP_NAME}</title>
-      </Helmet>
-      <p>Loading...</p>
-    </div>
+        </Helmet>
+        <CircularProgress />
+      </Container>
+    )
   }
 
   return (
-    <>
-      <div className='container orders-container'>
-        <Helmet>
-            <title>My Orders | {import.meta.env.VITE_APP_NAME}</title>
-        </Helmet>
-        <div className="col-md-12">
-          <ErrorComponent error={error} />
-        </div>
-        <div className="col-md-4">
-          <form className="search-orders-form" onSubmit={handleSearchFormSubmit}>
-            <div className="form-group query-orders-form-group">
-              <label htmlFor="query">Search:</label>
-              <input
-                type="text"
-                name="query"
-                className="form-control query-input"
-                value={query}
-                onChange={handleQueryChange}
-              />
-            </div>
-            <div className="form-group search-orders-button-container">
-              <div
-                className="btn btn-default clear-orders-search-form"
-                onClick={handleClearSearchInput}
-              >
-                <FontAwesomeIcon icon={faX} />
-              </div>
-              <input
-                className="btn btn-primary"
-                type="submit"
-                value="Submit Search"
-              />
-            </div>
-          </form>
-        </div>
-        {pagination()}
-        {renderList()}
-        {pagination()}
-      </div>
-    </>
+    <Container sx={{ mb: 4, }}>
+      <Helmet>
+        <title>My Orders | {import.meta.env.VITE_APP_NAME}</title>
+      </Helmet>
+      <ErrorComponent error={error} />
+      <Box
+        component="form"
+        onSubmit={handleSearchFormSubmit}
+        sx={{ mb: 2, maxWidth: 400, textAlign: 'left', }}
+      >
+        <Stack direction="row" spacing={1}>
+          <TextField
+            label="Search"
+            name="query"
+            fullWidth
+            size="small"
+            value={query}
+            onChange={handleQueryChange}
+          />
+          <IconButton onClick={handleClearSearchInput}>
+            <ClearIcon />
+          </IconButton>
+          <Button type="submit" variant="contained">
+            Search
+          </Button>
+        </Stack>
+      </Box>
+      {pagination()}
+      {renderList()}
+      {pagination()}
+    </Container>
   )
 }
